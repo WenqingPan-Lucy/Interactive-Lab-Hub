@@ -242,9 +242,8 @@ We deliberately kept the prototype centered on light. The goal was not to reprod
 
 # Part D. Wizard the Device
 
-One collaborator will act as the prey and anglerfish while the other collaborator secretly controls the Tinkerbelle interface from a computer.
+One collaborator will act as the prey and anglerfish, while the other collaborator secretly controls the Tinkerbelle interface from a computer. The wizard observes the prey’s movement in real time and responds by adjusting the light’s brightness, rhythm, and movement, selecting the appropriate light behavior as the interaction unfolds. 
 
-The wizard will control the prey's movement and another collaborator will select the appropriate light state.
 
 **Prey enters → Wizard turns lure on**
 
