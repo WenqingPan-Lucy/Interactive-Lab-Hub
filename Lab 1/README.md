@@ -139,7 +139,7 @@ The two players therefore interpret exactly the same light differently:
 
 ### Storyboard
 
-![Storyboard 1 — The Anglerfish: Light as Bait](./storyboard1.jpg)
+![Storyboard 1 — The Anglerfish: Light as Bait](./storyboard1.png)
 
 ## Storyboard 2 — The Angler Siphonophore: Light as Disguise
 
@@ -174,7 +174,7 @@ Unlike Storyboard 1, where the attraction comes largely from curiosity toward a 
 
 ### Storyboard
 
-![Storyboard 2 — The Angler Siphonophore: Light as Disguise](./storyboard2.jpg)
+![Storyboard 2 — The Angler Siphonophore: Light as Disguise](./storyboard2.png)
 
 ## Storyboard 3 — The Ostracod: Light as a Courtship Message
 
@@ -211,7 +211,7 @@ This storyboard changes the meaning of the light completely. The light is no lon
 
 ### Storyboard
 
-![Storyboard 3 — The Ostracod: Light as a Courtship Message](./storyboard3.jpg)
+![Storyboard 3 — The Ostracod: Light as a Courtship Message](./storyboard3.png)
 
 # Part B. Act out the Interaction
 
@@ -272,7 +272,7 @@ Non-sequential interaction sketch: The sketch shows the relationship between the
 
 Collaborators & influences: Wenqing Pan performed both the anglerfish and the prey in the final video. Manrong Mao acted as the hidden wizard, controlling the light’s brightness, pulsing frequency, and movement in response to the prey’s behavior. Together, we used the light to recreate the anglerfish’s bioluminescent hunting strategy in the deep sea.
 
-![prototyped interaction sketch](./sketch.png)
+![prototyped interaction sketch](./interactionsketch.png)
 
 ## Research Sources
 
