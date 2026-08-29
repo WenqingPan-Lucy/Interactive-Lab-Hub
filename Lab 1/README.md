@@ -3,6 +3,8 @@
 _This project is to be done in teams of 2._
 
 **NAME OF BOTH COLLABORATOR(S) HERE**
+ Manrong Mao (mm3599), Wenqing Pan(wp273)
+
 
 **THE MASTERWORK YOU DREW FROM THE HAT:**
 
