@@ -7,7 +7,7 @@ _This project is to be done in teams of 2._
 
 
 **THE MASTERWORK YOU DREW FROM THE HAT:**
-
+Bioluminescent Lures
 ---
 
 One way to understand greatness is to look to the greats. Just as painters learn
@@ -93,6 +93,15 @@ the interaction*:
 
 **Describe your masterwork here, in your own words. What is the core interaction
 someone would recognize it by?**
+Our masterwork is bioluminescent lures: the use of living light to attract, guide, communicate with, or deceive another animal in darkness. Unlike a human-designed device, it has no single inventor or creation date; bioluminescence evolved naturally across many species. Animals use these light signals for different purposes, including hunting, communication, and mating.
+One of the most recognizable examples is the deep-sea anglerfish. Female anglerfish have a glowing structure called an esca that acts as a lure. In the darkness of the deep sea, prey notices the small light and may approach to investigate, allowing the hidden anglerfish to attack. Other organisms use light differently—for example, some ostracods produce patterns of light to attract mates.
+The main input in this interaction is the behavior of another animal: noticing, approaching, following, or responding to the light. The response is the light-producing animal's next action, such as continuing the signal or attacking. The basic interaction can be described as:
+Light → Attention → Interpretation → Movement → Response
+The main players are the signaler, the receiver, and the dark environment that makes the light highly visible. A major strength of this interaction is that a very small amount of light can strongly influence another animal's behavior without physical contact. However, the signal does not guarantee success—prey may ignore the light or move away if it senses danger. The light can also reveal the signaler’s location to unintended animals. 
+For our recreation, we will focus on the anglerfish's most recognizable interaction:
+Darkness → glowing lure → prey notices → prey approaches → predator attacks.
+The core interaction is not simply that the organism produces light, but that the light changes another creature's behavior and draws it closer.
+
 
 ## Part A. Plan
 
@@ -117,6 +126,26 @@ and the people around it. If you're new to storyboarding, read
 Use the storyboards to decide what interaction to prototype.
 
 **Summarize the feedback you got here.**
+
+### Storyboard 1 — The Anglerfish: Light as Bait
+**Setting:**
+The scene takes place in the deep ocean at night, in near-total darkness. Most of the anglerfish's body is hidden, while its small glowing lure is visible.
+**Players:**
+Anglerfish / predator
+Small fish or crustacean / prey
+**Activity:**
+The anglerfish remains hidden and presents its glowing lure. A small prey animal notices the isolated point of light from a distance.
+The prey pauses and looks toward it.
+The lure moves slightly.
+The prey becomes curious and moves closer.
+As the prey approaches, most of the predator remains invisible. Only after the prey enters striking distance does the anglerfish reveal itself and attack.
+**Goals:**
+Anglerfish: Attract food while minimizing the energy needed to chase prey.
+Prey: Investigate something that appears interesting or potentially edible.
+The two players therefore interpret exactly the same light differently: to the predator, it is a hunting tool; to the prey, it appears to be an opportunity.
+**Storyboard:**
+
+
 
 ## Part B. Act out the Interaction
 
