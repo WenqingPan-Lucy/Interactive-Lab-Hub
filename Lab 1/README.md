@@ -264,7 +264,8 @@ Our first attempts at recording the wizarded set-up: <https://drive.google.com/f
 ### Final Video
 
 <https://cornell.zoom.us/rec/play/Ah_D09KKweKTYq5s5K3NyY1C5qRpGgTvu06cAA9htSGxLLW-9KAvZuzEcbXjNYajkLXIeAFXLkxBmsuT.On3WV0Wt4C12rrLn?accessLevel=meeting&canPlayFromShare=true&from=my_recording&continueMode=true&oldStyle=true&componentName=rec-play&originRequestUrl=https%3A%2F%2Fcornell.zoom.us%2Frec%2Fshare%2FOjL8XTB7Rxzb3IDZaUG28jEE2pqtPNxSOi4gTWKqsvtHTb7Gw2EvSyebjm0AfFYM.MNb5dc2zNoiy-62n>
-
+or
+<https://drive.google.com/file/d/1VSOVsDFtMfeOSeoko7Re1CvEbJFDxejj/view?usp=sharing>
 Our aim was to make the anglerfish’s hunting interaction immediately understandable. A viewer should be able to recognize how bioluminescent light functions as a lure in the darkness of the deep sea: the prey notices the light, becomes curious, approaches it, and eventually moves close enough for the hidden predator to attack. The key idea we wanted to communicate is that the light is not simply illumination—it is a signal that changes the behavior of another animal.
 
 Non-sequential interaction sketch: The sketch shows the relationship between the anglerfish, its bioluminescent lure, and the prey. The interaction is not completely fixed: the prey may approach, hesitate, or move away. In response, the lure can change its brightness, pulsing frequency, and movement to regain the prey’s attention and encourage it to move closer. This shows the interaction as a responsive loop rather than a fixed sequence.
