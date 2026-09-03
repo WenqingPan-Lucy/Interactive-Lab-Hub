@@ -354,7 +354,7 @@ Our lab 2 storyboard keeps the original idea that light changes another characte
 
 ### Storyboard
 
-![Storyboard 1 — The Anglerfish: Light as Bait](./lighthouse.JPG)
+![Storyboard 1 — The Anglerfish: Light as Bait](./lighthouse.jpg)
 
 ## Act out the Interaction
 
@@ -414,7 +414,7 @@ An opportunity of this design is that the lighthouse naturally gives the light a
 
 **Photos of the lighthouse prototype:**
 
-![alt text](./costume.jpg)
+![alt text](./l1.jpg)
 
 ## Record
 
