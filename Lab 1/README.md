@@ -328,7 +328,7 @@ The story takes place at night along a dark coastline, where a small boat has dr
 ### Players
 
 - **Lighthouse operator**
-- **Sailor on the boat**
+- **Sailor**
 
 ### Activity
 
@@ -373,7 +373,7 @@ We used **Tinkerbelle** to prototype the light interaction. The smartphone acted
 
 We experimented with different levels of brightness, colors, rhythms, and timing to see how each change affected the interaction. Instead of using many complicated effects, we kept the light behavior simple so that each state could be easily recognized.
 
-We focused mainly on **brightness, rhythm, contrast, and timing.** A steady light was used when the interaction was calm, while changes in brightness or pulsing were used when we wanted the light to attract more attention.
+We focused mainly on **brightness, sound, contrast, movement, and timing.** A steady light was used when the interaction was calm, while changes in brightness or pulsing were used when we wanted the light to attract more attention.
 
 The most important part of the prototype was making the light feel responsive rather than automatic. The light behavior changed based on what the participant was doing instead of simply playing through a fixed sequence.
 
@@ -386,7 +386,7 @@ We created a wizarded setup using **Tinkerbelle** so that one collaborator could
 
 The wizard watched the sailor's behavior in real time and selected the appropriate light response through the Jane Wren interface.
 
-**Sailor approaches from the wrong direction → Wizard triggers the horn**
+**Sailor approaches → Wizard triggers the horn**
 
 **Sailor notices the sound → Wizard directs the light toward the sailor**
 
@@ -418,6 +418,7 @@ An opportunity of this design is that the lighthouse naturally gives the light a
 
 ## Record
 
+https://drive.google.com/file/d/1Il1AVOAtaWVdOiKPrSYRJRpgVDk_XcUf/view?usp=sharing
 
 ## Feedback from other groups
 
