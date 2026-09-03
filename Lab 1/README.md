@@ -319,6 +319,149 @@ your response engages with what your master was really doing.
 **Document everything here — especially the storyboard and video. Photos of the
 prototype are great too.**
 
+## Storyboard: The Lighthouse: Light as Guidance
+
+### Setting
+
+The story takes place at night along a dark coastline, where a small boat has drifted away from the safe route.
+
+### Players
+
+- **Lighthouse operator**
+- **Sailor on the boat**
+
+### Activity
+
+Instead of using light to attract another creature toward danger, the lighthouse operator uses light to guide someone toward safety.
+
+When the lighthouse detects the sailor approaching from the wrong direction, it first produces a horn sound to get the sailor's attention.
+
+The lighthouse then directs its beam toward the direction the sailor is coming from. Once the sailor notices the signal, the light shifts to indicate the safer route.
+
+If the sailor hesitates or continues moving in the wrong direction, the lighthouse changes the brightness, rhythm, or direction of the beam to regain attention.
+
+As the sailor begins following the signal, the light continues adjusting to guide them toward safety.
+
+The horn acts as an initial attention signal, while the light provides the actual directional guidance.
+
+### Goals
+
+**Lighthouse Operator:** Gain the sailor's attention and guide the boat away from danger.
+
+**Sailor:** Notice and interpret the light signal in order to find a safe route.
+
+Our lab 2 storyboard keeps the original idea that light changes another character's movement, but changes the relationship completely. The light is no longer a lure that draws someone toward danger. It becomes an adaptive signal that guides someone toward safety.
+
+### Storyboard
+
+![Storyboard 1 — The Anglerfish: Light as Bait](./lighthouse.JPG)
+
+## Act out the Interaction
+
+We first acted out the interaction without focusing on the physical appearance of the device. One person played the participant, while the other manually controlled when and how the light appeared.
+
+The core sequence is:
+
+**Sailor miss direction → Sailor finds a light → Sailor tried to approach the light → Lighthouse detects the sailor → horn sounds → light points toward the sailor → light redirects toward safety → sailor follows.**
+
+Acting it out helped us realize that the timing of the light was very important. If the light changed too quickly, the participant did not have enough time to notice or respond to it. If it stayed the same for too long, the interaction felt less responsive.
+
+
+## Prototype the Light (light first!)
+
+We used **Tinkerbelle** to prototype the light interaction. The smartphone acted as the light source, while the computer running **Jane Wren** was used to remotely control the phone's screen.
+
+We experimented with different levels of brightness, colors, rhythms, and timing to see how each change affected the interaction. Instead of using many complicated effects, we kept the light behavior simple so that each state could be easily recognized.
+
+We focused mainly on **brightness, rhythm, contrast, and timing.** A steady light was used when the interaction was calm, while changes in brightness or pulsing were used when we wanted the light to attract more attention.
+
+The most important part of the prototype was making the light feel responsive rather than automatic. The light behavior changed based on what the participant was doing instead of simply playing through a fixed sequence.
+
+After getting the light interaction working, we added a short lighthouse horn as a secondary cue. The horn is triggered when the lighthouse first detects the sailor and is used only to attract attention. Once the sailor responds, the light becomes the main communication channel, changing its direction and behavior to guide the sailor toward the safe route.
+
+
+## Wizard the Device
+
+We created a wizarded setup using **Tinkerbelle** so that one collaborator could interact with the device while the other secretly controlled the light from a laptop.
+
+The wizard watched the sailor's behavior in real time and selected the appropriate light response through the Jane Wren interface.
+
+**Sailor approaches from the wrong direction → Wizard triggers the horn**
+
+**Sailor notices the sound → Wizard directs the light toward the sailor**
+
+**Sailor looks toward the lighthouse → Wizard shifts the light toward the safe direction**
+
+**Sailor hesitates → Wizard pulses or strengthens the light**
+
+**Sailor follows the signal → Wizard continues adjusting the light to guide the sailor**
+
+The wizard stayed outside the camera frame so that the lighthouse appeared to detect and respond to the sailor independently. The horn was used as the first attention cue, while the light reacted to the sailor's movement and provided the directional guidance.
+
+## (optional) Costume the Device
+
+After getting the light interaction working, we built a simple **lighthouse model** to give the phone light a physical form.
+
+We created an opening at the top of the lighthouse that was large enough to hold a smartphone. The phone could be placed inside the opening with its screen facing outward, allowing the Tinkerbelle light to shine from the top of the lighthouse.
+
+This setup allowed us to keep using the phone as the actual programmable light while hiding most of the phone inside the model. Instead of seeing a smartphone screen, the audience mainly sees light coming from the top of the lighthouse.
+
+**Phone → placed inside lighthouse → screen produces light → lighthouse appears to glow**
+
+One concern was making sure the opening was large and stable enough to hold the phone without blocking too much of the screen. At the same time, we wanted to hide as much of the phone as possible so that the device would feel more like a physical object rather than a phone placed inside a prop.
+
+An opportunity of this design is that the lighthouse naturally gives the light a clear position and direction. The elevated opening makes the light easier to see, while the physical structure gives the digital light a more recognizable and tangible form.
+
+**Photos of the lighthouse prototype:**
+
+![alt text](./costume.jpg)
+
+## Record
+
+
+## Feedback from other groups
+
+### 1. Terence Zhang; Jiesen Huang Group
+
+**Link:**  
+https://github.com/certaindragon3/Interactive-Lab-Hub/tree/Fall2026/Lab%201
+
+**Feedback:**
+
+I saw a small point of light appear in a completely dark space, and a small fish notice it from a distance. The fish paused and hesitated, and the light pulsed slightly, which pulled its attention back. The fish then moved closer, and once it got close enough, the hidden predator was revealed and the fish was eaten. I think the masterwork is the deep-sea anglerfish and its glowing lure. The anglerfish's goal is to attract food without spending energy chasing it, so it stays hidden and lets the light do the work. The small fish's goal is to investigate something that looks interesting or edible in a place where food is hard to find.
+
+I think the story arc was very clear, and the process of the small fish being tempted and then eaten came across without needing any explanation. The props were also very readable, especially the final moment showing the fish being eaten, which made the ending land. Keeping the predator's body invisible and showing only the lure made the deception much stronger.
+
+Overall I thought it was a very successful interaction. One thing I was not completely clear about was how much of the light's behavior was decided live by the wizard and how much was planned in advance, and whether the person playing the prey knew what the light was going to do next.
+
+---
+
+### 2. Simin Xu & Xiaowei David Zhang Chen Group
+
+**Link:**  
+https://github.com/certaindragon3/Interactive-Lab-Hub/tree/Fall2026/Lab%201
+
+**Feedback:**
+
+Your storyboard demonstrates excellent storytelling. Even through a quick reading, we could immediately understand the interaction and how bioluminescent light attracts and influences the prey. The video was also very engaging, and using hand-drawn paper fish made the process visually clear and easy to follow.
+
+For further development, maybe you could focus more deeply on one species, such as the anglerfish, and explore different possible outcomes within its hunting interaction. For example, the prey might approach immediately, hesitate, move away, or become suspicious. The lure could respond differently in each situation by changing its brightness, pulsing rhythm, or movement. Exploring these variations would make the interaction feel more responsive and help the audience gain a deeper understanding of how bioluminescent lures function as a hunting strategy.
+
+---
+
+### 3. Ziqiao Gao, Yan Shen Group
+
+**Link:**  
+https://github.com/zg375/Interactive-Lab-Hub/tree/4a6babdbe33db81f0d222dfc877ac0c2b9f3c293/Lab%201
+
+**Feedback:**
+
+By only watching the final video, We definitely recognize the blue fish is a angel fish that had a bioluminescent lures. However we think that the relationship between the glowing biological appendage and the blue fish are kind of confuse, because we don't know what the light are supposed to mean.
+
+We first think the light means it encounter another fish and will be turned off short after, then the lights keep on which we thought it might be off after the blue fish attack the yellow fish. However the light stays on and kinda moves away at the end which looks light the light fell off.
+
+Other than that, we think the video are very well made!
+
 ---
 
 
