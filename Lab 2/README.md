@@ -159,7 +159,9 @@ You can look in `image.py` for an example of how to display an image on the scre
 \*\*\***Include a picture of your own Raspberry Pi displaying the piscreen.service with your unique MAC address. Additionally, please provide another picture showing the successful completion of the screen test.**\*\*\*
 
 ![Raspberry Pi screen test and MAC address info](c.png)
-![MAC Address](MACaddress.jpg)
+<p align="center">
+  <img src="MACaddress.jpg" width="300">
+</p>
 *Fig. 4. MiniPiTFT displaying the Raspberry Pi's network information and unique MAC address through `piscreen.service`.*
 
 ## Part D. 
