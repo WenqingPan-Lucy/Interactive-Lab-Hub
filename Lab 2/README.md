@@ -162,7 +162,8 @@ You can look in `image.py` for an example of how to display an image on the scre
 <p align="center">
   <img src="MACaddress.jpg" width="300">
 </p>
-*Fig. 4. MiniPiTFT displaying the Raspberry Pi's network information and unique MAC address through `piscreen.service`.*
+<b>Fig. 4. Raspberry Pi network information.</b><br>
+The MiniPiTFT displays the Raspberry Pi's IP address, network information, and unique MAC address through piscreen.service.
 
 ## Part D. 
 ### Set up the Display Clock Demo
