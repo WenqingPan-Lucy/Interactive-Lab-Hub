@@ -114,11 +114,11 @@ If you are unfamiliar with the Python code in `cli_clock.py`, have a look at [th
 ### Set up your RGB Display
 We have asked you to equip the [Adafruit MiniPiTFT](https://www.adafruit.com/product/4393) on your Pi in the Lab 2 prep already. Here, we will introduce you to the MiniPiTFT and Python scripts on the Pi with more details.
 
-<img src="https://cdn-learn.adafruit.com/assets/assets/000/082/842/large1024/adafruit_products_4393_iso_ORIG_2019_10.jpg" height="200" />
+< img src="https://cdn-learn.adafruit.com/assets/assets/000/082/842/large1024/adafruit_products_4393_iso_ORIG_2019_10.jpg" height="200" />
 
 The Raspberry Pi 5 has a variety of interfacing options. When you plug the pi in the red power LED turns on. Any time the SD card is accessed the green LED flashes. It has standard USB ports and HDMI ports. Less familiar it has a set of 20x2 pin headers that allow you to connect a various peripherals.
 
-<img src="https://maker.pro/storage/g9KLAxU/g9KLAxUiJb9e4Zp1xcxrMhbCDyc3QWPdSunYAoew.png" height="400" />
+< img src="https://maker.pro/storage/g9KLAxU/g9KLAxUiJb9e4Zp1xcxrMhbCDyc3QWPdSunYAoew.png" height="400" />
 
 To learn more about any individual pin and what it is for go to [pinout.xyz](https://pinout.xyz/pinout/3v3_power) and click on the pin. Some terms may be unfamiliar but we will go over the relevant ones as they come up.
 
@@ -129,9 +129,9 @@ From your kit take out the display and the [Raspberry Pi 5](https://www.google.c
 Line up the screen and press it on the headers. The hole in the screen should match up with the hole on the raspberry pi.
 
 <p float="left">
-<img src="https://cdn-learn.adafruit.com/assets/assets/000/087/539/medium640/adafruit_products_4393_quarter_ORIG_2019_10.jpg?1579991932" height="200" />
-<img src="https://cdn-learn.adafruit.com/assets/assets/000/082/861/original/adafruit_products_image.png" height="200">
-</p>
+< img src="https://cdn-learn.adafruit.com/assets/assets/000/087/539/medium640/adafruit_products_4393_quarter_ORIG_2019_10.jpg?1579991932" height="200" />
+< img src="https://cdn-learn.adafruit.com/assets/assets/000/082/861/original/adafruit_products_image.png" height="200">
+</p >
 
 ### Testing your Screen
 
@@ -158,6 +158,7 @@ You can look in `image.py` for an example of how to display an image on the scre
 
 \*\*\***Include a picture of your own Raspberry Pi displaying the piscreen.service with your unique MAC address. Additionally, please provide another picture showing the successful completion of the screen test.**\*\*\*
 
+![Raspberry Pi screen test and MAC address info](c.png)
 
 ## Part D. 
 ### Set up the Display Clock Demo
@@ -183,20 +184,23 @@ Option 3. A nowadays often preferred method is to use Microsoft [VS code to remo
 
 Pro Tip: Using tools like [code-server](https://coder.com/docs/code-server/latest) you can even setup a VS Code coding environment hosted on your raspberry pi and code through a web browser on your tablet or smartphone! 
 
+[View the clock display code](screen_clock.py#L63-L74)
+### Time shows in the screen![Time](time.jpg)
+
 ## Part E. Read Part 2. Sketch and brainstorm further interactions and features you would like for your clock.
 
-One potential source of ideas might be thinking about other clocks and timekeeping devices for inspiration.
+### Time as Progress 
+My idea is to create a clock that represents **time as progress** rather than displaying the current hour and minute. Instead of telling users what time it is, the clock shows how much of a meaningful time period has already passed and how much remains. Users can view progress at different scales, including **Today**, **This Week**, and **Semester**. The two physical buttons on the MiniPiTFT would support different interactions. **Button A** switches between time scales, allowing the user to cycle through Today, This Week, and Semester. **Button B** switches between different ways of visualizing the same time information, such as a **progress bar**, **percentage completed**, or **time remaining**. The display color could also gradually change as the end of the selected time period approaches. For example, the screen could begin with a calmer color when most of the time remains and gradually shift as the period gets closer to completion. The goal of this concept is to make time feel more **visual, contextual, and tangible**. Rather than functioning as a traditional digital or analog clock, it helps users understand where they currently are within a larger period of time. 
 
-Another might be novel units of time. How do you measure a year? [In daylights? In midnights? In cups of coffee?](https://www.youtube.com/watch?v=wsj15wPpjLY)
+### Interaction Sketch ![Semester Progress Clock Sketch](sketch.png)
 
-We strongly discourage literal digital or analog clock display: Be creative.
+### Verplank diagrams![Diagram](diagram.jpg)
 
-
-** Insert ideas, sketches, [Verplank diagrams](https://ccrma.stanford.edu/courses/250a-fall-2004/IDSketchbok.pdf)), storyboards for your ideas **
-
+### Storyboard![storyboard](storyboard.png)
 
 
 **Put the names of the people you gave feedback to here. (Even better, add links to their repos here!)**
+
 
 # Lab 2 Part 2
 
