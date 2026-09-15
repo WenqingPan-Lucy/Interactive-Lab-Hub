@@ -207,6 +207,23 @@ My idea is to create a clock that represents **time as progress** rather than di
 
 **Put the names of the people you gave feedback to here. (Even better, add links to their repos here!)**
 
+https://github.com/Morinzzz/Interactive-Lab-Hub/tree/Fall2026/Lab%202
+
+Morin Zhou
+
+I like how simple and clear the idea is. Showing today, week, and semester progress makes time feel more visible than a normal clock. The storyboard is also easy to follow. One thing I was confused about is the top/bottom button mapping, because I would not immediately know which button leads to which view. I also think the ending about “planning my daily schedule” is a little stronger than what the device actually does. Maybe the final benefit could focus more on understanding how much time is left.
+
+https://github.com/certaindragon3/Interactive-Lab-Hub/tree/Fall2026/Lab%202 
+
+Jiesen Huang
+
+Hi! I like this idea a lot — it feels very doable on the MiniPiTFT, and the Today / This Week / Semester scales are genuinely useful. One thing that could make it more fun and less like a plain progress bar is adding some motion that carries meaning. For example, when Button A switches scales, the Today bar could shrink and slide into its slot inside the week, and the week could shrink into the semester, so you actually see how the time periods nest. You could also add small moments at milestones (a little burst at 25/50/75%, or something celebratory at the end of the day or week), or make the fill feel physical, like liquid that gently sloshes when you press a button. Right now Button B shows the same number three ways; maybe one of those views could be a more playful metaphor instead. Also, the Semester view will need start and end dates, so it's worth deciding where those get set. 
+
+https://github.com/ctyaaaaao/Interactive-Lab-Hub/blob/Fall2026/Lab%202
+
+Ziyao Zhang
+
+I really like the idea of seeing how much of the day is left because it could make me look forward to the end of the day. One thing I would be curious about is whether showing the percentage could also make some users feel pressured when there is not much time left. Maybe users could choose between seeing time passed and time remaining.
 
 # Lab 2 Part 2
 
