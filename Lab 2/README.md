@@ -258,9 +258,9 @@ After you edit and work on the scripts for Lab 2, the files should be upload bac
 
 After that, Git will ask you to login to your GitHub account to push the updates online, you will be asked to provide your GitHub user name and password. Remember to use the "Personal Access Tokens" you set up in Part A as the password instead of your account one! Go on your GitHub repo with your laptop, you should be able to see the updated files from your Pi!
 
-## Video
+### Video
 
-[View the PiClock Demo Video](https://drive.google.com/file/d/1XArrm53nRL9w2wQQC07nSxpQ5ouQ_5Re/view?usp=sharing)
+[View the Barebones PiClock Demo Video](https://drive.google.com/file/d/1XArrm53nRL9w2wQQC07nSxpQ5ouQ_5Re/view?usp=sharing)
 
 ## Now, make your own PiClock
 
@@ -278,7 +278,7 @@ As always, make sure you document contributions and ideas from others (and AI) e
 
 You are permitted (but not required) to work in groups and share a turn in; you are expected to make equal contribution on any group work you do, and N people's group project should look like N times the work of a single person's lab.  Make sure the page for the group turn in is linked to your personal Interactive Lab Hub page. 
 
-## Idea Update
+### Idea Update
 
 Our updated idea is to create a clock that represents **time as progress** rather than displaying the current hour and minute. Instead of telling users the exact time, the clock helps them understand **how far they are through a meaningful period of time and how much time remains**.
 
@@ -288,7 +288,17 @@ Each state follows the same visual structure. At the top of the screen, a title 
 
 The goal is to make time feel more **visual, contextual, and tangible**. Rather than functioning as a traditional clock, the display allows users to immediately understand where they are within the day, week, or semester and how much time they still have left.
 
-## Video
+
+### Verplank diagrams Update
+
+Based on our updated concept and interaction design, we revised our Verplank diagram to reflect the three time-progress states and the button interactions of the final PiClock design.
+
+![Updated Verplank Diagram](part2%20img.png)
+
+*Figure: Updated Verplank diagram for the Time as Progress PiClock.*
+
+
+### Video
 
 [View the PiClock Demo Video](https://drive.google.com/file/d/1eIPRVkOcaO76HwnGPQz10AnstmlGSCur/view?usp=sharing)
 
