@@ -240,9 +240,11 @@ I really like the idea of seeing how much of the day is left because it could ma
 
 ## Modify the barebones clock to make it your own
 
-Start small, pick just one element of your overall idea, just to show you have a handle on the code and components.
+### Barebones Prototype
 
-\*\*\***Put a copy of your code in your Lab 2 Github repo.**\*\*\*
+For the barebones version, I focused only on showing the progress of one day. To make the change visible in a short demo, I sped up the clock so that 1 real-world second represents 1 hour in the simulated day. This means the full 24-hour cycle can be shown in about 24 seconds. The progress bar, percentage, and remaining time update as the simulated day moves from 0% to 100%.
+
+[View the barebones code](progress_clock_barebones.py)
 
 ## Make a short video of your modified barebones PiClock
 
@@ -293,7 +295,7 @@ The goal is to make time feel more **visual, contextual, and tangible**. Rather 
 
 Based on our updated concept and interaction design, we revised our Verplank diagram to reflect the three time-progress states and the button interactions of the final PiClock design.
 
-![Updated Verplank Diagram](part2%20img.png)
+![Updated Verplank Diagram](part2 img.png)
 
 *Figure: Updated Verplank diagram for the Time as Progress PiClock.*
 
