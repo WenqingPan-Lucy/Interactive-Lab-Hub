@@ -295,7 +295,7 @@ The goal is to make time feel more **visual, contextual, and tangible**. Rather 
 
 Based on our updated concept and interaction design, we revised our Verplank diagram to reflect the three time-progress states and the button interactions of the final PiClock design.
 
-![Updated Verplank Diagram](part2 img.png)
+![Updated Verplank Diagram](part2%20img.jpg)
 
 *Figure: Updated Verplank diagram for the Time as Progress PiClock.*
 
