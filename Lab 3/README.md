@@ -109,7 +109,12 @@ The demo script also shows `--output-raw`, which streams audio to the speaker as
 \*\***Write your own shell file to use your favorite of these TTS engines to have your Pi greet you by name.**\*\*
 (This shell file should be saved to your own repo for this lab.)
 
+**My TTS greeting:** [View my greeting shell script](speech-scripts/my_greeting.sh)
+
+
 \*\***Then answer: Is the same greeting, in these different voices, the same greeting? Describe one concrete way the voice changed what the utterance seemed to mean or who seemed to be speaking.**\*\*
+
+Although the words were the same, the greetings felt quite different because of the voices. eSpeak sounded more distant and mature, which made the speaker feel a little cold or reserved. Festival sounded serious and formal, almost like a news broadcaster, so the greeting felt more like an announcement than a personal interaction. Piper sounded much more natural and conversational, which made the same greeting feel warmer and more personal. This made me realize that even when the words stay exactly the same, the voice can change how I imagine the speaker’s personality and interpret the tone of the message.
 
 ## B. Speech to Text
 
