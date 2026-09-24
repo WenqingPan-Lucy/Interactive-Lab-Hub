@@ -136,7 +136,14 @@ Available sizes, smallest first: `tiny.en`, `base.en`, `small.en`, `medium.en`. 
 
 \*\***Record a few seconds of your own speech (`arecord -d 5 -f cd -c 1 -r 16000 test.wav`) and transcribe it with at least two model sizes. Report the real-time factor for each. At what point does the accuracy improvement stop being worth the delay, for a system that has to answer you?**\*\*
 
+I tested three model sizes on a 5-second recording. tiny.en had a real-time factor of 0.24x, base.en had 0.44x, and small.en had 1.29x. None of the models correctly transcribed my name, “Wenqing”: tiny.en recognized it as “Wendy,” while both base.en and small.en recognized it as “Winti.” The larger models therefore did not provide a meaningful accuracy improvement for this recording, while adding noticeable latency. For a conversational system that needs to respond quickly, I would prefer tiny.en in this case, since increasing the model size did not improve the recognition of my name.
+
 \*\***Write your own script that verbally asks for a numerical input (a phone number, zipcode, number of pets) and records the answer the respondent provides.**\*\* Numbers are a good stress test — transcription systems make characteristic errors on digit strings, and you will want to know what they are before you design around them.
+
+I created a script that verbally asks the respondent how many pets they have and records their answer.
+
+[View my numerical input script](speech-scripts/ask_pets.sh)
+
 
 ## C. Turn-taking: knowing when someone has stopped talking
 
@@ -160,6 +167,8 @@ Speak, pause, and watch it transcribe. Now change the endpointing threshold — 
 
 There is no correct value. A system that takes drink orders and a system that listens to someone think out loud want very different thresholds, and the right one depends on what your users are doing with their pauses.
 
+At 0.2 seconds, the system felt too sensitive to normal pauses in speech. When I paused briefly while saying “Today I want to... test the speech recognition system,” it treated the pauses as the end of my turn and split the sentence into several separate utterances. At 1.5 seconds, the system was better at keeping my speech together, but the longer wait after I finished speaking made it feel slower and less responsive. Interestingly, during this test, it also transcribed my name “Wenqing” as “Wen T.” This may reflect a speech-recognition error rather than an effect of the silence threshold itself, since the threshold mainly determines when the system considers a turn finished. At 0.7 seconds, the interaction felt more balanced. It successfully captured my full sentence, “I want to test the speech recognition system,” as one utterance while still responding relatively quickly. Overall, 0.7 seconds felt the most natural to me, because it allowed short pauses without making the system feel like it was waiting too long to respond.
+
 ### The complete loop
 
 `echo_bot.py` puts the pieces together: it listens, endpoints, transcribes, and speaks a reply through Piper. The dialogue policy is deliberately trivial — it repeats what you said — so that everything you notice is a property of the timing rather than the content.
@@ -176,15 +185,109 @@ Storyboard and/or use a Verplank diagram to design a speech-enabled device. (Stu
 
 Write out what you imagine the dialogue to be. Use cards, post-its, or whatever method helps you develop alternatives or group responses.
 
+### Storyboard
+<p align="center">
+  <img src="storyboardlab3.jpg"
+       width="500"
+       style="transform: rotate(-90deg);">
+</p>
+
+
+
+
+### Dialogue Script — Voice-Based Morning Assistant
+
+**Scenario:** The user starts a conversation with a voice-based morning assistant to check the weather, review their daily tasks, organize a new task, and set a reminder.
+
+**User:** Good morning!
+
+**Assistant:** Good morning, Wenqing! How can I help you start your day?
+
+**User:** What’s the weather like today?
+
+**Assistant:** It’s 55°F and rainy today. You may want to bring an umbrella.
+
+**User:** What do I have to do today?
+
+**Assistant:** You have an HCI assignment and a meeting at 2 PM.
+
+**User:** I also need to prepare my slides... *[short pause]* before the meeting.
+
+*The assistant continues listening during the short pause and waits for approximately 0.7 seconds of silence before considering the user’s turn complete.*
+
+**Assistant:** Got it. Would you like to work on the slides this morning?
+
+**User:** Yes, maybe around 10.
+
+**Assistant:** Would you like me to remind you at 10 AM?
+
+**User:** Yes, please.
+
+**Assistant:** Okay. I’ll remind you at 10 AM to prepare your slides.
+
+**Later, at 10:00 AM**
+
+**Assistant:** Wenqing, it’s 10 AM. It’s time to prepare your slides.
+
+**User:** Okay, thanks!
+
+
+
+### Interaction Flow
+
+The dialogue moves from **user-initiated information seeking** (weather and daily tasks) to **collaborative planning** (organizing a new task) and finally to **assistant-initiated interaction** (a scheduled reminder).
+
 \*\***Please describe and document your process.**\*\*
 
 Your script should include the pauses. Where does your device wait, and for how long? You now know from Part C that this is a parameter you have to choose, not something that happens for free.
+
+### Design Process
+
+I started by thinking about a typical morning routine and the information I often need at the beginning of the day. I wanted the interaction to go beyond simply asking and answering one question, so I designed the assistant to support three connected tasks: checking the weather, reviewing the day's to-do list, and setting reminders for upcoming tasks.
+
+I designed the conversation to begin with the user rather than having the device speak unexpectedly. After the user says "Good morning," they can naturally move between different needs, such as asking about the weather or checking their schedule. The assistant can also help turn a newly mentioned task into an action by asking whether the user wants to schedule it and set a reminder. The interaction therefore moves from information seeking to planning and finally to a proactive reminder from the assistant.
+
+### Pauses and Turn-Taking
+
+Based on my experiments in Part C, I chose approximately **0.7 seconds of silence** as the default endpointing threshold before the assistant considers the user's turn complete.
+
+At 0.2 seconds, normal pauses in my speech caused the system to divide one sentence into several separate utterances. At 1.5 seconds, the system allowed longer pauses, but the delay after I finished speaking made the interaction feel less responsive. In comparison, 0.7 seconds captured my complete sentence while still responding relatively quickly.
+
+For example, the user might say:
+
+**User:** "I also need to prepare my slides... *[short pause]* before the meeting."
+
+During the short pause, the assistant remains in the listening state rather than immediately responding. It waits until approximately **0.7 seconds of continuous silence** before deciding that the user's turn is complete.
+
+The same endpointing rule is used when the assistant asks questions such as:
+
+**Assistant:** "Would you like me to remind you at 10 AM?"
+
+After asking the question, the assistant waits for the user to respond. Once speech begins, it listens until it detects approximately 0.7 seconds of silence before processing the response.
+
+This design gives users room for natural pauses while thinking or speaking, without making the assistant feel unnecessarily slow.
 
 ## E. Acting out the dialogue
 
 Find a partner, and *without sharing the script with your partner* try out the dialogue you've designed, where you (as the device designer) act as the device you are designing. Please record this interaction (for example, using Zoom's record feature).
 
 \*\***Describe if the dialogue seemed different than what you imagined when it was acted out, and how.**\*\*
+
+### Interaction Recording
+
+[Watch the Voice-Based Morning Assistant Role-Play Recording](https://drive.google.com/file/d/1SirT_DyhYUl3ozeDQBnCP96O-FhWqpXk/view?usp=sharing)
+
+### Reflection
+
+The acted-out dialogue was different from what I originally imagined in several ways.
+
+First, the user sometimes made evaluative or conversational comments rather than only giving direct responses. For example, after hearing the to-do list, the user said, “That’s not too much.” I had not included this type of response in my original script. This made me realize that users may treat a voice assistant as a conversational partner rather than simply following a question-and-answer structure.
+
+Second, I noticed that the same intent can be expressed in many different ways. For example, a user might ask “What should I do today?” or “What is my to-do list today?” to request essentially the same information. My original dialogue only included one phrasing for each request, but a real speech interface would need to recognize different expressions of the same intent.
+
+Finally, the user asked about the time associated with tasks on the to-do list, which I had not anticipated in my original dialogue. Instead of simply listening to the list, the user wanted to know when a particular task was scheduled. This suggests that the assistant should support follow-up questions about information it has just provided, such as the time, priority, or details of a task.
+
+Overall, acting out the dialogue showed me that real conversations are less predictable and more flexible than a scripted interaction. In a future iteration, I would design the assistant to handle conversational comments, multiple ways of expressing the same intent, and contextual follow-up questions about previously mentioned tasks.
 
 
 ---
