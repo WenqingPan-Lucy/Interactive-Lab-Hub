@@ -319,6 +319,86 @@ The screen then provides continuous feedback about the assistant’s state. Whil
 These visual states make turn-taking more explicit: touch means “I want to speak,” Listening means “speak now,” Thinking means “wait,” and Speaking means “listen to the assistant.” This reduces the ambiguity that existed in the speech-only design from Part 1.
 
 3. Make a new storyboard, diagram and/or script based on these reflections.
+
+![Storyboard of the redesigned Morning Assistant](storyboardp2.jpg)
+
+
+### Redesigned Interaction Script
+
+**[Screen: "Touch to talk"]**
+
+**User touches the capacitive sensor.**
+
+**[Screen: "Listening..."]**
+
+**User:** What do I need to do tomorrow?
+
+**[Screen: "Thinking..."]**
+
+**Assistant:** Tomorrow, you have an HCI assignment and an appointment at 11 AM.
+
+**[Screen: "Speaking..."]**
+
+The device returns to the **"Touch to talk"** state after responding.
+
+---
+
+**User touches the sensor again.**
+
+**User:** I also have a class at 12 PM tomorrow and need to finish my slides in the afternoon.
+
+**Assistant:** Got it. I added your 12 PM class and finishing your slides to tomorrow's plan.
+
+
+---
+
+**User touches the sensor again.**
+
+**User:** What's the weather going to be like tomorrow?
+
+**Assistant:** Tomorrow's forecast is [weather information], with a [rain probability]% chance of rain.
+
+
+---
+
+**User touches the sensor again.**
+
+**User:** Remind me to work on my HCI assignment at 8:30 tonight.
+
+**Assistant:** Okay. I'll remind you to work on your HCI assignment at 8:30 PM.
+
+**At 8:30 PM:**
+
+**[Screen: Reminder icon]**
+
+**Assistant:** Reminder: It's time to work on your HCI assignment.
+
+---
+
+### Redesigned Interaction Flow
+
+The redesigned interaction follows the general flow below:
+
+`Idle ("Touch to talk")`
+→ `User touches capacitive sensor`
+→ `Listening`
+→ `Speech recognition`
+→ `Thinking / Intent detection`
+→ `Action`
+→ `Spoken response`
+→ `Return to idle`
+
+Depending on the detected intent, the system can perform different actions:
+
+- **Ask about time** → Retrieve current time
+- **Ask about weather** → Retrieve current or future weather
+- **Add task(s)** → Extract and save one or more tasks
+- **Ask about plan** → Retrieve saved tasks for the requested day
+- **Set reminder** → Extract task and time → Save reminder → Notify user at the scheduled time
+- **Unclear request** → Ask the user to clarify rather than taking an uncertain action
+
+This redesign addresses issues observed during the WoZ interaction by supporting multiple ways of expressing an intent, allowing more complex task input, handling incomplete or ambiguous requests through clarification, and making turn-taking visible through the screen and touch sensor.
+
 4. (optional) Integrate [input devices](inputs.md) in the system
 
 ## Prototype your system
@@ -332,7 +412,7 @@ These visual states make turn-taking more explicit: touch means “I want to spe
 
 *Include videos or screencaptures of both the system and the controller.* -->
 
-I implemented the redesigned Morning Assistant as a functional prototype using a Raspberry Pi, a capacitive touch sensor, a screen, microphone input, and speech output.
+
 
 ### How the System Works
 
@@ -414,7 +494,7 @@ The WoZ interactions showed me that real conversations are much less predictable
 
 I also learned that the system needs to maintain conversational context. For example, after hearing a to-do list, a user may ask “When is the meeting?” without repeating the full task or date. The autonomous version should remember information from previous turns and use it to interpret follow-up questions.
 
-Finally, the system should be designed to handle uncertainty rather than assuming it understood the user correctly. If important information such as a reminder time is missing or unclear, it should ask a specific clarification question or confirm its interpretation before taking action. These lessons informed my Part 2 prototype by adding more flexible intent handling, short-term conversation state, and clarification for incomplete requests.
+Finally, the system should be designed to handle uncertainty rather than assuming it understood the user correctly. If important information such as a reminder time is missing or unclear, it should ask a specific clarification question or confirm its interpretation before taking action. These lessons informed my Part 2 prototype by adding more flexible intent handling and clarification for incomplete requests, while also highlighting conversational context as an important area for future improvement.
 
 ### How could you use your system to create a dataset of interaction? What other sensing modalities would make sense to capture?
 
