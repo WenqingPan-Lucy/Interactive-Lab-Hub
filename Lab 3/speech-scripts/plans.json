@@ -1,0 +1,28 @@
+{
+  "2026-09-30": [
+    {
+      "task": "a reminder for me at 9 o for my class assignment",
+      "time": "9 PM"
+    },
+    {
+      "task": "a reminder for me for my class assignment",
+      "time": "9:10 PM"
+    }
+  ],
+  "2026-10-01": [
+    {
+      "task": "class",
+      "time": "6 PM"
+    },
+    {
+      "task": "coach meeting",
+      "time": "10 AM"
+    }
+  ],
+  "2026-10-02": [
+    {
+      "task": "coach meeting",
+      "time": "11 AM"
+    }
+  ]
+}
