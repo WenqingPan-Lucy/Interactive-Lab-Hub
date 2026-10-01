@@ -1,6 +1,6 @@
 # Chatterboxes
 
-**NAMES OF COLLABORATORS HERE**
+<!-- **NAMES OF COLLABORATORS HERE**
 
 [![Watch the video](https://user-images.githubusercontent.com/1128669/135009222-111fe522-e6ba-46ad-b6dc-d1633d21129c.png)](https://www.youtube.com/embed/Q8FWzLMobx0?start=19)
 
@@ -34,11 +34,11 @@ pi@ixe00:~/Interactive-Lab-Hub $ git push
 
 Option 2: On your own GitHub repo, create a pull request to get updates from the class Interactive-Lab-Hub. After you have the latest updates online, go to your Pi, `cd` to your `Interactive-Lab-Hub` and use `git pull`.
 
----
+--- -->
 
 # Part 1
 
-## Setup
+<!-- ## Setup
 
 Create and activate a virtual environment for this lab:
 
@@ -68,11 +68,11 @@ Then run the setup script, which installs the classic speech synthesizers, downl
 (.venv) $ ./setup.sh
 ```
 
-Check your audio devices before going further. `arecord -l` lists capture devices and `aplay -l` lists playback devices; if your webcam microphone or Bluetooth speaker does not appear, fix that first — every script below assumes the system defaults are the ones you want.
+Check your audio devices before going further. `arecord -l` lists capture devices and `aplay -l` lists playback devices; if your webcam microphone or Bluetooth speaker does not appear, fix that first — every script below assumes the system defaults are the ones you want. -->
 
 ## A. Text to Speech
 
-Your Pi can speak in several quite different ways, and the differences are audible in a way that matters for design. In `speech-scripts/` there are shell scripts for each.
+<!-- Your Pi can speak in several quite different ways, and the differences are audible in a way that matters for design. In `speech-scripts/` there are shell scripts for each.
 
 ### The classic engines
 
@@ -104,7 +104,7 @@ Note that the Piper command line changed in version 1.x — voices are now downl
 (.venv) $ ./piper_demo.sh
 ```
 
-The demo script also shows `--output-raw`, which streams audio to the speaker as it is generated rather than writing a file first. Listen for the difference in how quickly speech begins. In a conversational system this gap is the thing your user experiences as responsiveness.
+The demo script also shows `--output-raw`, which streams audio to the speaker as it is generated rather than writing a file first. Listen for the difference in how quickly speech begins. In a conversational system this gap is the thing your user experiences as responsiveness. -->
 
 \*\***Write your own shell file to use your favorite of these TTS engines to have your Pi greet you by name.**\*\*
 (This shell file should be saved to your own repo for this lab.)
@@ -118,7 +118,7 @@ Although the words were the same, the greetings felt quite different because of 
 
 ## B. Speech to Text
 
-We use [faster-whisper](https://github.com/SYSTRAN/faster-whisper), a reimplementation of OpenAI's Whisper model that runs several times faster on CPU and does not require PyTorch. All processing happens on the Pi; nothing is sent to a server.
+<!-- We use [faster-whisper](https://github.com/SYSTRAN/faster-whisper), a reimplementation of OpenAI's Whisper model that runs several times faster on CPU and does not require PyTorch. All processing happens on the Pi; nothing is sent to a server.
 
 ```
 (.venv) $ python transcribe.py lookdave.wav
@@ -136,7 +136,7 @@ Available sizes, smallest first: `tiny.en`, `base.en`, `small.en`, `medium.en`. 
 
 \*\***Record a few seconds of your own speech (`arecord -d 5 -f cd -c 1 -r 16000 test.wav`) and transcribe it with at least two model sizes. Report the real-time factor for each. At what point does the accuracy improvement stop being worth the delay, for a system that has to answer you?**\*\*
 
-I tested three model sizes on a 5-second recording. tiny.en had a real-time factor of 0.24x, base.en had 0.44x, and small.en had 1.29x. None of the models correctly transcribed my name, “Wenqing”: tiny.en recognized it as “Wendy,” while both base.en and small.en recognized it as “Winti.” The larger models therefore did not provide a meaningful accuracy improvement for this recording, while adding noticeable latency. For a conversational system that needs to respond quickly, I would prefer tiny.en in this case, since increasing the model size did not improve the recognition of my name.
+I tested three model sizes on a 5-second recording. tiny.en had a real-time factor of 0.24x, base.en had 0.44x, and small.en had 1.29x. None of the models correctly transcribed my name, “Wenqing”: tiny.en recognized it as “Wendy,” while both base.en and small.en recognized it as “Winti.” The larger models therefore did not provide a meaningful accuracy improvement for this recording, while adding noticeable latency. For a conversational system that needs to respond quickly, I would prefer tiny.en in this case, since increasing the model size did not improve the recognition of my name. -->
 
 \*\***Write your own script that verbally asks for a numerical input (a phone number, zipcode, number of pets) and records the answer the respondent provides.**\*\* Numbers are a good stress test — transcription systems make characteristic errors on digit strings, and you will want to know what they are before you design around them.
 
@@ -147,7 +147,7 @@ I created a script that verbally asks the respondent how many pets they have and
 
 ## C. Turn-taking: knowing when someone has stopped talking
 
-Everything so far has worked on fixed audio files. A real conversational device does not get told when to start and stop recording — it has to decide. This is the problem that makes speech interfaces hard, and it is mostly not a speech recognition problem.
+<!-- Everything so far has worked on fixed audio files. A real conversational device does not get told when to start and stop recording — it has to decide. This is the problem that makes speech interfaces hard, and it is mostly not a speech recognition problem.
 
 We use a **voice activity detector** (VAD) to segment the microphone stream into utterances. `listen.py` runs Silero VAD continuously and hands each detected utterance to faster-whisper:
 
@@ -161,7 +161,7 @@ Speak, pause, and watch it transcribe. Now change the endpointing threshold — 
 ```
 (.venv) $ python listen.py --min-silence 0.2
 (.venv) $ python listen.py --min-silence 1.5
-```
+``` -->
 
 \*\***Try both extremes, and something in between. Describe what each one feels like to talk to. Note specifically: at 0.2s, what kinds of normal speech get cut off? At 1.5s, what does the delay make the system seem like?**\*\*
 
@@ -169,17 +169,17 @@ There is no correct value. A system that takes drink orders and a system that li
 
 At 0.2 seconds, the system felt too sensitive to normal pauses in speech. When I paused briefly while saying “Today I want to... test the speech recognition system,” it treated the pauses as the end of my turn and split the sentence into several separate utterances. At 1.5 seconds, the system was better at keeping my speech together, but the longer wait after I finished speaking made it feel slower and less responsive. Interestingly, during this test, it also transcribed my name “Wenqing” as “Wen T.” This may reflect a speech-recognition error rather than an effect of the silence threshold itself, since the threshold mainly determines when the system considers a turn finished. At 0.7 seconds, the interaction felt more balanced. It successfully captured my full sentence, “I want to test the speech recognition system,” as one utterance while still responding relatively quickly. Overall, 0.7 seconds felt the most natural to me, because it allowed short pauses without making the system feel like it was waiting too long to respond.
 
-### The complete loop
+<!-- ### The complete loop
 
 `echo_bot.py` puts the pieces together: it listens, endpoints, transcribes, and speaks a reply through Piper. The dialogue policy is deliberately trivial — it repeats what you said — so that everything you notice is a property of the timing rather than the content.
 
 ```
 (.venv) $ python echo_bot.py
-```
+``` -->
 
 ## D. Storyboard
 
-Storyboard and/or use a Verplank diagram to design a speech-enabled device. (Stuck? Make a device that talks for dogs. If that is too stupid, find an application that is better than that.)
+<!-- Storyboard and/or use a Verplank diagram to design a speech-enabled device. (Stuck? Make a device that talks for dogs. If that is too stupid, find an application that is better than that.) -->
 
 \*\***Post your storyboard and diagram here.**\*\*
 
@@ -269,7 +269,7 @@ This design gives users room for natural pauses while thinking or speaking, with
 
 ## E. Acting out the dialogue
 
-Find a partner, and *without sharing the script with your partner* try out the dialogue you've designed, where you (as the device designer) act as the device you are designing. Please record this interaction (for example, using Zoom's record feature).
+<!-- Find a partner, and *without sharing the script with your partner* try out the dialogue you've designed, where you (as the device designer) act as the device you are designing. Please record this interaction (for example, using Zoom's record feature). -->
 
 \*\***Describe if the dialogue seemed different than what you imagined when it was acted out, and how.**\*\*
 
@@ -299,38 +299,128 @@ For Part 2, you will redesign the interaction with the speech-enabled device usi
 ## Prep for Part 2
 
 1. What are concrete things that could use improvement in the design of your device? For example: wording, timing, anticipation of misunderstandings.
+
+
+- **Wording:** Use more natural and flexible phrasing. The device should support different ways of asking the same question, such as “What’s my to-do list today?” or “What should I do today?”
+
+- **Handling follow-up questions:** Allow users to ask for more details about information that was previously mentioned, such as the time of a task (“When is the meeting?”), without requiring them to repeat the full context.
+
+- **Anticipating misunderstandings:** If the user’s input is unclear or not recognized correctly, the device should ask a clarifying question instead of giving an irrelevant or potentially incorrect response.
+
+
 2. What are other modes of interaction *beyond speech* that you might also use to clarify how to interact? In particular: how does someone know when the device is listening, and when it is thinking? You have a screen and an LED.
+
+In Part 1, the interaction relied almost entirely on speech, which made the device’s internal state unclear. The user could not easily tell when the assistant was listening, when it had decided that the user was finished speaking, or when it was processing a response.
+
+For Part 2, I added touch and visual feedback as additional interaction modes. The assistant is no longer always listening. Instead, the user touches a capacitive sensor to initiate each interaction. When the device is idle, the screen displays “Touch to talk.” After the touch is detected, the device begins listening. This gives the user explicit control over when a conversation turn starts.
+
+The screen then provides continuous feedback about the assistant’s state. While the user is speaking, it displays a microphone icon and “Listening...”. After the speech turn ends and the assistant is processing the input, the screen changes to a circular icon and “Thinking...”. When the assistant responds, it shows a speaker icon and “Speaking...”, and a reminder uses a separate bell icon. 
+
+These visual states make turn-taking more explicit: touch means “I want to speak,” Listening means “speak now,” Thinking means “wait,” and Speaking means “listen to the assistant.” This reduces the ambiguity that existed in the speech-only design from Part 1.
+
 3. Make a new storyboard, diagram and/or script based on these reflections.
 4. (optional) Integrate [input devices](inputs.md) in the system
 
 ## Prototype your system
 
-The system should:
+<!-- The system should:
 * use the Raspberry Pi
 * use one or more sensors
 * require participants to speak to it
 
 *Document how the system works.*
 
-*Include videos or screencaptures of both the system and the controller.*
+*Include videos or screencaptures of both the system and the controller.* -->
+
+I implemented the redesigned Morning Assistant as a functional prototype using a Raspberry Pi, a capacitive touch sensor, a screen, microphone input, and speech output.
+
+### How the System Works
+
+I implemented the redesigned Morning Assistant as a functional prototype using a Raspberry Pi, a capacitive touch sensor, a screen, microphone input, and speech output.
+
+![Physical setup of the Morning Assistant](./system_setup.png)
+
+**Figure 1. Physical setup of the Morning Assistant.** The prototype consists of a Raspberry Pi with a screen for visual feedback, an MPR121 capacitive touch sensor for initiating interaction, and audio input/output for speech-based interaction.
+
+As shown in **Figure 2**, the screen provides visual feedback for each stage of the interaction. The interaction follows this sequence:
+
+1. **Idle (Figure 2a):** The device waits for the user to initiate an interaction. The screen displays “Touch to talk.”
+
+2. **Touch to activate:** The user touches the capacitive sensor (pad 6) to activate the assistant. This prevents the device from continuously listening and gives the user control over when an interaction begins.
+
+3. **Listening (Figure 2b):** After the touch is detected, the microphone begins listening. The screen displays a microphone icon and “Listening...” so the user knows when to speak.
+
+4. **Thinking (Figure 2c):** When the user finishes speaking, the system transcribes and processes the request. The screen changes to a circular processing icon and “Thinking...” to indicate that the user should wait.
+
+5. **Response (Figure 2d):** The assistant responds through speech. The screen displays a speaker icon and “Speaking...” while the response is being played.
+
+6. **Return to idle:** After responding, the device returns to the “Touch to talk” state and waits for the next interaction.
+
+![Four interaction states of the Morning Assistant](./lab3_fig.jpg)
+
+**Figure 2. Multimodal interaction states of the redesigned Morning Assistant.** 
+(a) “Touch to talk” indicates that the device is idle; 
+(b) “Listening” indicates that the user can speak; 
+(c) “Thinking” indicates that the request is being processed; and 
+(d) “Speaking” indicates that the assistant is delivering its response.
+
+### Interaction Flow
+
+`Touch sensor → Listening → Speech recognition → Thinking → Intent/task processing → Spoken response → Idle`
+
+### Participant Testing
+
+I tested the prototype with two participants to observe how people interacted with the touch-to-talk mechanism, visual state feedback, and conversational assistant.
+
+**Participant 1:**  
+[Watch Participant 1 Testing Video](https://drive.google.com/file/d/1_Sofrh06lzBpOJN-KG5y9Eo3wp-9LeCE/view?usp=sharing)
+
+**Participant 2:**  
+[Watch Participant 2 Testing Video](https://drive.google.com/file/d/1HcuUAD7mrQXC-M_KllQMqEZL2sd5rwfS/view?usp=sharing)
 
 ## Test the system
 
-Try to get at least two people to interact with your system. (Ideally, you would inform them that there is a wizard *after* the interaction, but we recognize that can be hard.)
+<!-- Try to get at least two people to interact with your system. (Ideally, you would inform them that there is a wizard *after* the interaction, but we recognize that can be hard.)
 
-Answer the following:
+Answer the following: -->
 
 ### What worked well about the system and what didn't?
-\*\**your answer here*\*\*
+**What worked well:**  
+The system successfully supported several useful daily-assistant functions:
+
+- **Time:** It could tell users the current time when asked.
+- **Weather:** It could provide weather information for the current day as well as a future day, including temperature and the probability of rain.
+- **Task management:** Users could tell the assistant about future tasks, appointments, classes, or deadlines, and the system could save these items for later.
+- **Plan retrieval:** After tasks were saved, users could ask questions such as “What do I need to do tomorrow?” and the assistant could retrieve and summarize the previously recorded plans.
+- **Multiple tasks:** The system could store multiple items in the user's plan rather than being limited to a single task.
+- **Reminders:** Users could ask the assistant to create time-based reminders, and the system could notify them when the scheduled time was reached.
+- **Interaction feedback:** The touch-to-talk interaction gave users control over when the device started listening. The screen also clearly communicated the current state through “Touch to talk,” “Listening,” “Thinking,” and “Speaking” feedback.
+
+Overall, the prototype was able to support a basic conversational workflow in which users could provide information, have the system remember it, and later retrieve or act on that information.
+
+**What didn't work well:**  
+The reminder feature was less reliable when recognizing certain spoken time expressions. For example, a time such as “9:05” could sometimes be transcribed as “9 or 5,” causing the system to misunderstand the intended reminder time. Similar speech-recognition errors could make reminder creation fail even when the user's request was otherwise clear. A future version could improve this by confirming the interpreted time before saving the reminder, for example, “Did you mean 9:05 PM?”
 
 ### What worked well about the controller and what didn't?
-\*\**your answer here*\*\*
+**What worked well:**  
+The capacitive touch sensor provided a simple and clear way for users to initiate an interaction. Instead of having the device continuously listen, users could touch the sensor whenever they wanted to speak. This gave users more control over the interaction and made it clearer when the device would start listening. The touch sensor also worked reliably during testing and responded quickly when participants touched it.
+
+**What didn't work well:**  
+The controller requires users to touch the sensor before every speaking turn, which can become repetitive during a longer conversation. Users may also forget to touch the sensor before speaking, especially after the assistant responds, because they may naturally expect the conversation to continue. If they start speaking without touching the sensor, the device will not listen or respond. 
 
 ### What lessons can you take away from the WoZ interactions for designing a more autonomous version of the system?
-\*\**your answer here*\*\*
+
+The WoZ interactions showed me that real conversations are much less predictable than a predefined script. Users may express the same intent in many different ways, ask follow-up questions that I did not anticipate. Therefore, a more autonomous system should not depend too heavily on exact keywords or fixed sentence structures.
+
+I also learned that the system needs to maintain conversational context. For example, after hearing a to-do list, a user may ask “When is the meeting?” without repeating the full task or date. The autonomous version should remember information from previous turns and use it to interpret follow-up questions.
+
+Finally, the system should be designed to handle uncertainty rather than assuming it understood the user correctly. If important information such as a reminder time is missing or unclear, it should ask a specific clarification question or confirm its interpretation before taking action. These lessons informed my Part 2 prototype by adding more flexible intent handling, short-term conversation state, and clarification for incomplete requests.
 
 ### How could you use your system to create a dataset of interaction? What other sensing modalities would make sense to capture?
-\*\**your answer here*\*\*
+
+The system could create an interaction dataset by logging each user session, including the user’s transcribed speech, the detected intent (such as adding a task, asking about a plan, checking the weather, or setting a reminder), the system’s response, and timestamps for each interaction. It could also record whether the system successfully completed the request or needed clarification. Over multiple users and sessions, this could create a dataset showing the different ways people express the same intent, common speech-recognition errors, and situations in which misunderstandings occur.
+
+Additional sensing modalities could provide more context about the interaction. For example, proximity sensing could detect whether someone is near the device before it provides information or reminders. A camera could also capture nonverbal behaviors such as whether users are looking at the screen or appear confused, although this would require careful consideration of privacy and consent. Combining speech, touch, timing, and contextual sensor data could help identify where interactions succeed or break down and inform future improvements to the system.
 
 <details>
   <summary><strong>Submission Cleanup Reminder (Click to Expand)</strong></summary>
