@@ -101,6 +101,17 @@ Through this prototype, we hope to explore how sensing and physical movement can
 
 **\*\*\*Document your rough prototype with photos and/or video.\*\*\***
 
+
+### Prototype Documentation
+
+We built a low-fidelity prototype of our gesture-controlled snack box using cardboard, a gesture sensor, and a servo motor.
+
+The video below demonstrates our prototype and how the box responds to hand gestures.
+
+**[Watch Our Prototype Video](https://drive.google.com/file/d/1WEn9dfrXIc-exooUZ6ztHu4NFcpg1fwo/view?usp=sharing)**
+
+
+
 ---
 
 ## Part 2
