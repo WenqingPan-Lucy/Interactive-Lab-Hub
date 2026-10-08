@@ -24,21 +24,6 @@ Project name: Wave & Snack: A Gesture-Controlled Snack Box
 
 For lab this week, we focus on both sensing and actuation, bringing new modes of input and output into your devices, while also prototyping the physical structure and overall look of the device. You will consider how the physical form supports sensing and actuation, and how these elements come together to shape the interaction and aesthetics of the device.
 
----
-
-## Lab Structure
-
-A) [Capacitive Sensing](#part-a)
-
-B) [More Sensors](#part-b)
-
-C) [Servo Actuation](#part-c)
-
-D) [Physical Interaction Design: Feast Automata](#part-d)
-
-E) [Build & Integrate](#part-e)
-
-F) [Final Documentation](#part-f)
 
 
 
