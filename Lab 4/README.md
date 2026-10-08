@@ -46,7 +46,7 @@ F) [Final Documentation](#part-f)
 
 **\*\*\*Draw 5 sketches that explore different physical arrangements for your sensing and actuation.\*\*\***
 
-![Five Sketches for Feast Automata](./lab4.1.png)
+![Five Sketches for Feast Automata](./lab4.1.jpg)
 
 
 ### Sketch 1: Wave to Open a Snack Box
