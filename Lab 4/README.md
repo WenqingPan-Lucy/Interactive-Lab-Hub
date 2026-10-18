@@ -122,6 +122,65 @@ Following exploration and reflection from Part 1, complete the "looks like," "wo
 
 ### Part E
 
+## 1. Code for the Sensing + Actuation Prototype
+
+**Code:** [candy_box.py](./candy_box.py)
+
+## 2. Photos and Video of the Working Prototype
+
+[Watch the Working Prototype Video](https://drive.google.com/file/d/1Ds5nPiZ8BBnytCsnbjUYIHpI67No9Pgy/view?usp=sharing)
+
+The photos show the physical structure of my Snack Bot from different angles, including the open and closed states, the sensor placement, and the mechanism used to move the lid.
+
+## 4. Iterations and Testing
+
+### Iteration 1: Sensor Connection
+
+At first, I had trouble connecting the gesture sensor to the Raspberry Pi. The sensor light was on, but the Raspberry Pi could not detect it through I2C. I tried different Qwiic cables and connection ports, but it still did not work.
+
+I spent a lot of time checking the hardware connection and restarting the Raspberry Pi. After several attempts, I finally got both the gesture sensor (0x39) and Servo pHAT (0x40) detected at the same time.
+
+I learned that even when a sensor has power, it doesn't mean the sensor is communicating correctly.
+
+### Iteration 2: Gesture Interaction
+
+My original idea was to swipe up to open the candy box and swipe down to close it. However, when I attached the gesture sensor to the box, its orientation was different from how I had tested it before. The gesture direction became reversed when I used it on the actual box.
+
+So I changed the code to make swiping down open the box and swiping up close it. This made the interaction work correctly with the actual sensor position.
+
+I realized that sensor placement can directly affect how the user interacts with the device.
+
+### Iteration 3: Servo Motion
+
+I tested many different servo angles to find a good movement for opening and closing the box. At first, I used a smaller range, but the servo arm did not move enough for my physical design.
+
+I tried different angles manually and observed how the servo rotated. Finally, I found that 0 to 110 degrees worked better for my box.
+
+I also added smooth movement and a short cooldown in the code, so the servo does not move too suddenly or respond multiple times to one gesture.
+
+### Iteration 4: Physical Structure
+
+Building the physical structure was more difficult than I expected. I first tried different types of boxes, including paper boxes and metal boxes. The metal box was too heavy, and it was harder to fix the servo in a stable position. I found that a lighter box was easier to work with.
+
+I also had trouble attaching the long paper strip to the servo arm. The paper was hard to secure, and it could easily become loose when the servo moved.
+
+I tried different ways to attach it and adjust its position. I used a wire to connect the moving parts. This helped me experiment with how the servo movement could control the lid.
+
+I learned that even a small mechanical connection can affect the whole prototype.
+
+## 5. Reflection
+
+Through this project, I learned that connecting a sensor and servo in code is only one part of building a physical interaction. At first, I thought the hardest part would be programming, but the physical structure actually took me more time. Even when the servo worked correctly by itself, it was not easy to make it move the box lid.
+
+One thing that surprised me was how much the sensor placement changed the interaction. When I attached the sensor to the box, I had to reverse the gesture directions in my code. I also found that the weight of the box and the way I attached the paper strip made a big difference. A heavier box was harder to work with, and the servo connection was not always stable.
+
+The most fun part was seeing the servo respond to my hand movement and actually control something physical. It felt different from just seeing the output in the terminal. I also learned that adjusting the servo angle and movement speed could make the interaction more natural.
+
+If I had more time, I would improve the mechanical structure and make the connection between the servo and the lid more stable.
+
+Overall, this project showed me how sensing, coding, and physical design need to work together to create a meaningful interaction.
+
+
 #### Build & Integrate: Sensing + Actuation
 
 For Part 2, build the Feast Automata interaction you developed in Part D by connecting sensing/input to physical actuation.
