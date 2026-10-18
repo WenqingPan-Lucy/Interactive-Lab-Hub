@@ -18,7 +18,9 @@
 
 ## Lab Overview
 Team: snack bots
+
 Members: Wenqing 	Pan(wp273, Github: WenqingPan-Lucy ); Mandy Mao(mm3599, Github:manrongm)
+
 Project name: Wave & Snack: A Gesture-Controlled Snack Box
 
 
@@ -122,19 +124,30 @@ Following exploration and reflection from Part 1, complete the "looks like," "wo
 
 ### Part E
 
-## 1. Code for the Sensing + Actuation Prototype
+#### 1. Code for the Sensing + Actuation Prototype
 
 **Code:** [candy_box.py](./candy_box.py)
 
-## 2. Photos and Video of the Working Prototype
+#### 2. Photos and Video of the Working Prototype
 
 [Watch the Working Prototype Video](https://drive.google.com/file/d/1Ds5nPiZ8BBnytCsnbjUYIHpI67No9Pgy/view?usp=sharing)
 
+![Snack Bot Working Prototype](./lab41.png)
+
 The photos show the physical structure of my Snack Bot from different angles, including the open and closed states, the sensor placement, and the mechanism used to move the lid.
 
-## 4. Iterations and Testing
 
-### Iteration 1: Sensor Connection
+#### 3. Sensing and Actuation Interaction
+
+The following sketch illustrates how sensing and actuation are connected in my Snack Bot prototype.
+
+![Sensing and Actuation Interaction Sketch](./lab42.png)
+
+When the user waves their hand above the gesture sensor, the APDS-9960 detects the movement and sends the gesture data to the Raspberry Pi. The Raspberry Pi interprets the gesture and sends a control signal through the Servo pHAT to activate the servo motor. The motor rotates to lift the candy box lid, allowing the user to access the candy without touching the box. Once the box is open, the user can wave their hand again. The gesture sensor detects the new gesture, and the Raspberry Pi triggers the servo motor to rotate back to its original position, closing the box. 
+
+#### 4. Iterations and Testing
+
+##### Iteration 1: Sensor Connection
 
 At first, I had trouble connecting the gesture sensor to the Raspberry Pi. The sensor light was on, but the Raspberry Pi could not detect it through I2C. I tried different Qwiic cables and connection ports, but it still did not work.
 
@@ -142,7 +155,7 @@ I spent a lot of time checking the hardware connection and restarting the Raspbe
 
 I learned that even when a sensor has power, it doesn't mean the sensor is communicating correctly.
 
-### Iteration 2: Gesture Interaction
+##### Iteration 2: Gesture Interaction
 
 My original idea was to swipe up to open the candy box and swipe down to close it. However, when I attached the gesture sensor to the box, its orientation was different from how I had tested it before. The gesture direction became reversed when I used it on the actual box.
 
@@ -150,7 +163,8 @@ So I changed the code to make swiping down open the box and swiping up close it.
 
 I realized that sensor placement can directly affect how the user interacts with the device.
 
-### Iteration 3: Servo Motion
+##### Iteration 3: Servo Motion
+
 
 I tested many different servo angles to find a good movement for opening and closing the box. At first, I used a smaller range, but the servo arm did not move enough for my physical design.
 
@@ -158,7 +172,7 @@ I tried different angles manually and observed how the servo rotated. Finally, I
 
 I also added smooth movement and a short cooldown in the code, so the servo does not move too suddenly or respond multiple times to one gesture.
 
-### Iteration 4: Physical Structure
+##### Iteration 4: Physical Structure
 
 Building the physical structure was more difficult than I expected. I first tried different types of boxes, including paper boxes and metal boxes. The metal box was too heavy, and it was harder to fix the servo in a stable position. I found that a lighter box was easier to work with.
 
@@ -168,7 +182,7 @@ I tried different ways to attach it and adjust its position. I used a wire to co
 
 I learned that even a small mechanical connection can affect the whole prototype.
 
-## 5. Reflection
+#### 5. Reflection
 
 Through this project, I learned that connecting a sensor and servo in code is only one part of building a physical interaction. At first, I thought the hardest part would be programming, but the physical structure actually took me more time. Even when the servo worked correctly by itself, it was not easy to make it move the box lid.
 
@@ -179,6 +193,21 @@ The most fun part was seeing the servo respond to my hand movement and actually 
 If I had more time, I would improve the mechanical structure and make the connection between the servo and the lid more stable.
 
 Overall, this project showed me how sensing, coding, and physical design need to work together to create a meaningful interaction.
+
+
+### Part F: Looks Like, Works Like, Acts Like
+
+#### Looks Like
+
+The prototype looks like a small candy box with a movable lid. A gesture sensor is placed near the box to detect hand movements, while a servo motor is attached to control the lid. The box is lightweight and designed to sit on a table.
+
+#### Works Like
+
+The gesture sensor detects hand movements and sends signals to the Raspberry Pi, which controls the servo motor. The motor opens the lid when a gesture is detected and closes it when another gesture is detected.
+
+#### Acts Like
+
+The user waves their hand above the sensor to open the candy box without touching it. After taking some candy, they wave again to close the lid, creating a simple, touch-free interaction.
 
 
 #### Build & Integrate: Sensing + Actuation
