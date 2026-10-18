@@ -170,7 +170,7 @@ I tested many different servo angles to find a good movement for opening and clo
 
 I tried different angles manually and observed how the servo rotated. Finally, I found that 0 to 110 degrees worked better for my box.
 
-I also added smooth movement and a short cooldown in the code, so the servo does not move too suddenly or respond multiple times to one gesture.
+I also added smooth movement and a short cooldown in the code, so the servo does not move too suddenly or respond multiple times to one gesture.This made the interaction feel more predictable, since one hand gesture would trigger one clear movement of the lid. I also found it fun to see the box gradually open and close in response to my gestures, rather than moving suddenly.
 
 ##### Iteration 4: Physical Structure
 
