@@ -24,10 +24,25 @@
 
 ## Part A. 
 
+We successfully installed YOLO26 and exported the nano model to NCNN format for running on the Raspberry Pi. We first tested object detection using the sample bus image.
+
+![YOLO Bus Detection](bus.jpg)
+
+We then tested YOLO object detection on another image to observe how the model identifies objects in different scenes.
+
+![YOLO Detection on Our Image](nap.jpg)
+
 
 \*\*\***Include a screenshot of `ollama list` showing your models.**\*\*\*
 
+We installed Ollama and downloaded the two Qwen models required for this lab:
 
+- `qwen3.5:0.8b`
+- `qwen3:0.6b`
+
+The screenshot below shows the installed models using the `ollama list` command.
+
+![Ollama Model List](ollama_list.png)
 
 
 ## Part B. 
