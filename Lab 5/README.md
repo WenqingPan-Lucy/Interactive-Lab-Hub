@@ -46,28 +46,220 @@ The screenshot below shows the installed models using the `ollama list` command.
 
 
 ## Part B. 
-### See: recognize people in real time with YOLO
 
-YOLO is an *object detector*: it finds every person, cup, cat and so on (the 80 [COCO](https://cocodataset.org/) classes), draws a box around each, and gives a confidence. For an observant system that is exactly what you want: *how many*, *where*, *how sure*.
-
-Connect your webcam, connect to your Pi through **VNC** (the script opens a window), and run the person detector. Read `yolo_person.py` first; the loop at the bottom is the whole idea.
-
-```
-(.venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 5 $ python yolo_person.py
-```
-
-While it runs, walk in and out of the frame, sit down, turn your back, hold up a photo of a person on your phone. Watch the confidence number on the box change with each.
-
-Then press q to quit and run it again with a flag. Each one changes a single thing:
-
-```
-(.venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 5 $ python yolo_person.py --conf 0.2     # lower the bar: see what the model is unsure about
-(.venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 5 $ python yolo_person.py --conf 0.7     # raise the bar: see what you lose
-(.venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 5 $ python yolo_person.py --all          # all 80 classes, not only people: what else is on your desk, and what does it get wrong?
-(.venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 5 $ python yolo_person.py --headless     # no window, only the printed readings: how it runs over ssh, and at night
-```
 
 \*\*\***Include a short video or screenshots of your experiments with the person detection. Write down three situations where it did not see you, or saw a person who was not there, and what you think the cause was.**\*\*\*
+
+
+I tested YOLO with my webcam using different commands and confidence thresholds. I also changed my position, showed different objects to the camera, and tested how the model performed under partial visibility, different distances, and low-light conditions.
+
+### 1. Default Detection
+
+**Command:**
+
+python yolo_person.py
+
+
+**Actual Result:**
+
+YOLO successfully detected people in real time and drew bounding boxes around them. The confidence scores changed as I moved or changed my position.
+
+Interestingly, when I showed only one of my arms to the camera while keeping the rest of my body outside the frame, YOLO still detected it as a person.
+
+I also showed a photo of a person on my phone, and YOLO identified the person in the photo.
+
+**Explanation:**
+
+YOLO does not always need to see a complete human body to detect a person. It can sometimes recognize a person based on limited visual features, such as a visible arm. This can be useful when someone is partially blocked or outside the camera's view.
+
+However, the model cannot reliably distinguish a real person from a person displayed on a screen.
+
+### 2. Lower Confidence Threshold (--conf 0.2)
+
+**Video:** [Low Confidence Detection](https://drive.google.com/file/d/1ZU4gx6UtopPDo3UMGfKiFwzsQH9XiFPY/view?usp=sharing)
+
+**Command:**
+
+python yolo_person.py --conf 0.2
+
+
+**Actual Result:**
+
+When I lowered the confidence threshold to 0.2, YOLO detected more objects as people. It incorrectly identified my backpack as a person with a confidence score of 0.44.
+
+**Explanation:**
+
+A lower confidence threshold allows more uncertain predictions to appear. This can help detect people that the model is less confident about, but it also increases the chance of false positives.
+
+In this case, the model probably confused some visual features of my backpack with those of a person.
+
+### 3. Higher Confidence Threshold (--conf 0.7)
+
+**Video:** [High Confidence Detection](https://drive.google.com/file/d/1AIAn09E9ksBDBHLNOCIpnf0wlVr2hLmT/view?usp=sharing)
+
+**Command:**
+
+python yolo_person.py --conf 0.7
+
+
+**Actual Result:**
+
+When I increased the confidence threshold to 0.7, YOLO no longer detected my backpack as a person. The model only displayed detections with higher confidence scores.
+
+I also tested the camera by pointing it toward people outside a glass window. When the people were farther away, YOLO failed to detect them as people.
+
+**Explanation:**
+
+The higher threshold filtered out the incorrect backpack detection because its confidence score was only 0.44.
+
+However, the higher threshold also increased the risk of missing real people. In the window experiment, the people appeared smaller in the camera frame, and the glass may have affected image clarity. These factors could have reduced the detection confidence below 0.7.
+
+This experiment shows the trade-off between reducing false positives and avoiding false negatives.
+
+### 4. Detect All Objects (--all)
+
+**Video:** [All Objects Detection](https://drive.google.com/file/d/1MkgUY2JSLbdKVTSeWhyiDp5hIs3KrosI/view?usp=sharing)
+
+**Command:**
+
+python yolo_person.py --all
+
+
+**Actual Result:**
+
+YOLO correctly identified some objects, including a chair and a cell phone. However, it also incorrectly identified my headphones as a cell phone with a confidence score of 0.46.
+
+I noticed that objects farther away from the camera usually had confidence scores below 0.5.
+
+The detection was not always stable. For example, a chair in the background sometimes appeared and disappeared between frames, even though it was not moving.
+
+**Explanation:**
+
+The `--all` flag allows YOLO to detect all 80 COCO object classes instead of only people.
+
+However, the model can still confuse objects with similar visual features. Headphones are not a separate category in the standard COCO dataset, which may have contributed to the incorrect classification.
+
+Distant objects are also more difficult to recognize because they appear smaller and have fewer visible details.
+
+Small changes between frames can affect confidence scores. If the confidence drops below the threshold, the bounding box disappears even though the object remains in the scene.
+
+### 5. Headless Mode (--headless)
+
+**Command:**
+
+python yolo_person.py --headless
+
+**Actual Result:**
+
+The program ran without opening a camera window. Instead, it continuously printed detection results in the terminal, including the position, height, and confidence score of each detected person.
+
+**Explanation:**
+
+The `--headless` flag allows YOLO to run without a graphical interface.
+
+This is useful when running the program through SSH or when the Raspberry Pi needs to monitor the environment overnight without displaying the camera feed.
+
+### 6. Detection in a Dark Room
+
+**Command:**
+
+python yolo_person.py --headless
+
+
+**Actual Result:**
+
+I tested YOLO in a dark room with all the lights turned off.
+
+Surprisingly, YOLO was still able to detect a real person in all of my tests. It successfully identified the person when facing the camera, turning their back, and even when only part of their body was visible.
+
+However, the results were different when I showed a picture of a person on my phone.
+
+When I held the phone very close to the camera, YOLO could detect the person in the picture. But when I moved the phone farther away, it could no longer detect the person.
+
+**Explanation:**
+
+I think detection depends on how much visual information the camera can capture. Even though the room was dark, the camera still seemed to capture enough information to recognize a real person.
+
+For the picture on my phone, the person became smaller in the camera frame as I moved the phone farther away. This may have made it harder for YOLO to recognize human features. The screen brightness and surrounding lighting conditions might also have affected the results.
+
+This experiment suggests that YOLO can still work under some low-light conditions, but detection performance depends on distance, visibility, and the available visual information.
+
+**Possible Application:**
+
+Headless mode would be useful for an overnight observant system because the Raspberry Pi can monitor the environment without displaying a camera window.
+
+However, I would need to consider lighting conditions and detection errors before relying on the results.
+
+---
+
+### Detection Errors and Limitations
+
+#### Error 1: Backpack Detected as a Person (False Positive)
+
+When I used `--conf 0.2`, YOLO incorrectly detected my backpack as a person with a confidence score of 0.44.
+
+When I increased the threshold to 0.7, this false detection disappeared.
+
+**Possible Cause:**
+
+The model may have confused the backpack's shape with human features. The lower confidence threshold allowed this uncertain prediction to appear.
+
+Increasing the threshold removed the false positive, but it did not change the model's underlying classification ability.
+
+#### Error 2: Person in a Phone Photo Detected as a Real Person
+
+I showed a picture of a person on my phone, and YOLO identified the person in the picture.
+
+**Possible Cause:**
+
+YOLO recognizes visual features associated with people, but it does not determine whether the detected person is physically present in the environment or displayed on a screen.
+
+Although detecting a person in a photograph is not necessarily incorrect for an object detection model, it could become a false alarm in a room-monitoring system.
+
+#### Error 3: Distant People Not Detected (False Negative)
+
+When I used `--conf 0.7` and pointed the camera toward people outside a glass window, YOLO failed to recognize them as people.
+
+**Possible Cause:**
+
+The people were relatively far from the camera and appeared smaller in the image. This reduced the amount of visual detail available for detection.
+
+The glass window may also have affected image clarity through reflections or reduced contrast.
+
+Combined with the high confidence threshold of 0.7, these factors may have caused the detections to be filtered out.
+
+This shows that a high confidence threshold can cause the system to miss real people, especially when they are far away.
+
+#### Error 4: Headphones Detected as a Cell Phone (Misclassification)
+
+When I used `--all`, YOLO incorrectly identified my headphones as a cell phone with a confidence score of 0.46.
+
+**Possible Cause:**
+
+The model may have confused their visual features. Headphones are not a separate class in the standard COCO dataset, so the model may have matched them to a category it already recognized.
+
+#### Additional Limitation: Unstable Detection of Distant Objects
+
+I noticed that distant objects usually had lower confidence scores, often below 0.5.
+
+For example, a chair in the background was sometimes detected, but its bounding box disappeared in the next frame even though the chair had not moved.
+
+**Possible Cause:**
+
+Distant objects appear smaller in the image, providing less visual information for the model.
+
+Small changes in camera frames or confidence scores may cause detections to appear and disappear, even when the environment remains unchanged.
+
+### Conclusion
+
+Through these experiments, I learned that YOLO can detect people even when only part of their body is visible, but it can also make mistakes when objects have similar visual features.
+
+I also observed that confidence thresholds significantly affect detection results. A lower threshold allows more detections but increases the risk of false positives, while a higher threshold filters out uncertain predictions but may miss real people.
+
+Distance and visibility also influence detection performance. Objects farther from the camera were generally harder to detect consistently.
+
+For an overnight observant system, I think it would be better to evaluate detections across multiple frames rather than treating every individual prediction as a real event. This could help reduce false alarms and make the system more reliable.
+
 
 
 
