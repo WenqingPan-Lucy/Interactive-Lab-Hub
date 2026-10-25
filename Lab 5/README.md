@@ -194,7 +194,9 @@ However, I would need to consider lighting conditions and detection errors befor
 
 ### Detection Errors and Limitations
 
-#### Error 1: Backpack Detected as a Person (False Positive)
+#### Error 1: Backpack Detected as a Person
+
+![Error 1: Backpack Detected as a Person](error1.png)
 
 When I used `--conf 0.2`, YOLO incorrectly detected my backpack as a person with a confidence score of 0.44.
 
@@ -208,6 +210,8 @@ Increasing the threshold removed the false positive, but it did not change the m
 
 #### Error 2: Person in a Phone Photo Detected as a Real Person
 
+![Error 2: Person Detected in a Phone Photo](error2.png)
+
 I showed a picture of a person on my phone, and YOLO identified the person in the picture.
 
 **Possible Cause:**
@@ -216,7 +220,9 @@ YOLO recognizes visual features associated with people, but it does not determin
 
 Although detecting a person in a photograph is not necessarily incorrect for an object detection model, it could become a false alarm in a room-monitoring system.
 
-#### Error 3: Distant People Not Detected (False Negative)
+#### Error 3: Distant People Not Detected 
+
+![Error 3: Distant People Not Detected](error3.jpg)
 
 When I used `--conf 0.7` and pointed the camera toward people outside a glass window, YOLO failed to recognize them as people.
 
