@@ -641,6 +641,16 @@ I also learned that the interpreter is important because it decides what informa
 
 For my overnight observant system, I think the device should record clear observations and avoid treating Qwen's interpretation as a confirmed fact.
 
+**Modified Pipeline:**
+- [yolo_to_qwen.py](yolo_to_qwen.py)
+
+**Experiment Logs:**
+- [Run 1 — Original Pipeline](watch_log_run1.txt)
+- [Run 2 — Different Question](watch_log_run2.txt)
+- [Run 3 — Modified Interpreter](watch_log_run3.txt)
+- [Run 4 — All Object Detection](watch_log_run4.txt)
+
+
 ---
 
 # Lab 5 Part 2: Overnight Sensation
