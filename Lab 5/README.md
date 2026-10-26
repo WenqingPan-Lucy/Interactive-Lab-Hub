@@ -445,36 +445,199 @@ I would also give the model specific detection logs and ask it to only use the i
 
 
 ## Part E. 
-### Connect: from YOLO readings to Qwen reasoning
 
-An observant system is a pipeline: a **detector** turns pixels into boxes, an **interpreter** turns boxes into readings in words ("one person, left, close"), the readings pile up in a **log**, and a **reasoner** answers a question about the log. The language model never sees pixels, only the words you chose in the interpreter. That makes the interpreter the most important design decision in the system.
+In this part, I connected YOLO with Qwen to build an observant system. YOLO detected people and objects through the webcam, the interpreter converted the detections into text, and Qwen used the saved logs to answer questions.
 
-`yolo_to_qwen.py` is the pipeline in one file, one function per stage. Read it before you run it:
+I tested the pipeline four times with different questions and settings. I also modified the `interpret()` function to make the logs more clear.
 
-* `interpret(r)` is the interpreter. It takes one YOLO result and returns one reading. A person is *left*, *center* or *right* by which third of the frame the middle of their box is in, and *close* if the box is taller than 60% of the frame, *far* otherwise. The reading is a string like `1 person(s) at center/close`, or `nobody`. Fifteen lines, and they decide everything the model can know.
-* `watch(seconds)` is the detector and the log. Twice a second it reads a frame, runs YOLO on it and calls `interpret()`. A time-stamped reading goes into the log **only when it differs from the previous one**, so a minute of sitting still is one line, not 120.
-* `ask(log, question)` is the reasoner. It pastes the log and your question into one prompt, tells Qwen to answer in at most three sentences using only what is in the log, and sends it to Ollama with thinking off.
+### Run 1: Original Pipeline — Person Detection
 
-Run it through VNC and a window opens with YOLO's boxes, the current reading and the seconds left. Press q to stop watching early. Over plain ssh add `--headless` and you get the same thing minus the window.
+**Command:**
 
-```
-(.venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 5 $ python yolo_to_qwen.py
+```bash
+python yolo_to_qwen.py
 ```
 
-It watches for a minute, saves the log to `watch_log.txt` and asks Qwen the default question. The terminal looks something like this:
+**Log:**
 
+```text
+20:13:39 nobody
+20:13:50 1 person(s) at right/close
+20:13:51 1 person(s) at center/close
+20:14:01 1 person(s) at center/far
+20:14:21 1 person(s) at right/far
+20:14:26 1 person(s) at center/far
+20:14:27 1 person(s) at left/far
 ```
-14:02:11 nobody
-14:02:19 1 person(s) at right/far
-14:02:24 1 person(s) at center/close
-14:02:51 nobody
 
-4 lines saved to watch_log.txt
-asking Qwen...
+**Question:**
 
-Qwen (18.4 s):
-One person came in from the right, moved close to the camera, and left after about half a minute. ...
+How many people were there, what were they doing, and did anything change?
+
+**Qwen Answer:**
+
+> There was only one person present throughout the entire 60-second observation period. They were standing near a center/close position for the majority of the time, but their location shifted to right/far and then left/far at specific intervals. No significant change in activity occurred; the camera simply recorded the sequential movements of that single individual.
+
+**Response Time:** 32.5 seconds
+
+**Accuracy: Partially Correct**
+
+Qwen correctly noticed that the detected person's position changed. However, it said one person was present during the entire observation, even though the first log entry was `nobody`. It also said the person was standing most of the time, but the log did not record whether the person was standing or sitting.
+
+I think Qwen made some assumptions based on the positions instead of only using the information in the log.
+
+### Run 2: Asking a Different Question
+
+**Command:**
+
+```bash
+python yolo_to_qwen.py --log watch_log_run1.txt --question "Did anyone leave the room?"
 ```
+
+For this test, I reused the log from Run 1 but changed the question.
+
+**Log:**
+
+Same as Run 1 (`watch_log_run2.txt`).
+
+**Question:**
+
+Did anyone leave the room?
+
+**Qwen Answer:**
+
+> No one is explicitly stated to be leaving the room; however, the presence of multiple people at various distances (center, right, left, and far) throughout the 60-second interval indicates that activity occurred within the space. The absence of a "nobody" line suggests no one was absent from the room during this period.
+
+**Response Time:** 13.2 seconds
+
+**Accuracy: Partially Correct**
+
+Qwen correctly said the log did not explicitly show anyone leaving the room. However, it made two mistakes.
+
+First, it said there were multiple people, but the log only showed one person in each detection. Second, it said there was no `nobody` entry, even though the first line clearly showed `nobody`.
+
+This showed me that changing the question can lead to different conclusions, even when the input log is exactly the same.
+
+### Interpreter Modification
+
+After Runs 1 and 2, I modified the `interpret()` function because Qwen sometimes misunderstood the original log format.
+
+**Original Output:**
+
+```text
+nobody
+1 person(s) at center/close
+```
+
+**Modified Output:**
+
+```text
+No person detected in the current camera frame.
+Current frame: 1 person detected at center/close.
+```
+
+I also changed the output format when multiple people are detected, so the log describes the number of people in the current frame more clearly.
+
+**Why I Changed It:**
+
+I wanted the log to describe what the camera actually detected, instead of making statements about the whole room. For example, `nobody` could be interpreted as nobody being in the room, while `No person detected in the current camera frame` is more specific.
+
+I also wanted to make it clear that each line represents a detection at a particular time, not the identity or movement history of a person.
+
+I kept the original position and distance rules, so the main change was how the interpreter described the results.
+
+### Run 3: Testing the Modified Interpreter
+
+**Command:**
+
+```bash
+python yolo_to_qwen.py --headless --seconds 60 --question "How many people were detected, and did anyone leave the camera view?"
+```
+
+**Log:**
+
+```text
+20:38:07 No person detected in the current camera frame.
+20:38:14 Current frame: 1 person detected at right/far.
+20:38:15 Current frame: 1 person detected at center/far.
+20:38:20 Current frame: 1 person detected at center/close.
+20:38:31 Current frame: 1 person detected at left/close.
+20:38:36 Current frame: 1 person detected at left/far.
+20:38:40 Current frame: 1 person detected at center/far.
+20:38:44 Current frame: 1 person detected at right/far.
+20:38:59 Current frame: 1 person detected at right/close.
+20:39:00 Current frame: 1 person detected at center/close.
+```
+
+**Question:**
+
+How many people were detected, and did anyone leave the camera view?
+
+**Qwen Answer:**
+
+> The detector recorded a total of 1 person across all six frames, indicating that no one left the room; however, the log explicitly states "No person detected" at the very beginning of the recording. Therefore, while the count remains constant, the initial reading was for an empty frame.
+
+**Response Time:** 19.4 seconds
+
+**Accuracy: Partially Correct**
+
+This time, Qwen correctly noticed that the first entry showed no person detected. It also recognized that the later entries each showed one person.
+
+However, it said there were only six frames, even though the log contained ten entries. Also, the log only records changes in detection results, not every camera frame.
+
+Qwen also concluded that nobody left the room, but the camera data cannot really prove that. It only shows whether a person was detected in the camera view.
+
+The modified interpreter made the log more specific, but Qwen still made some incorrect assumptions.
+
+### Run 4: Detecting All Objects
+
+**Command:**
+
+```bash
+python yolo_to_qwen.py --headless --seconds 30 --all --question "What objects were detected, and did their positions change?"
+```
+
+**Log:**
+
+```text
+20:43:06 Current frame: 1 person detected at center/far.
+20:43:11 Current frame: 1 person detected at center/far. Other detected objects: cell phone
+20:43:18 Current frame: 1 person detected at center/far.
+20:43:20 Current frame: 1 person detected at center/far. Other detected objects: bottle
+20:43:24 Current frame: 1 person detected at center/far.
+20:43:29 Current frame: 1 person detected at center/far. Other detected objects: cell phone
+20:43:34 Current frame: 1 person detected at center/far.
+```
+
+**Question:**
+
+What objects were detected, and did their positions change?
+
+**Qwen Answer:**
+
+> The camera detected a single person at the center of the frame throughout the 30-second period. No other objects were identified in the log. Consequently, no positions changed for any detected object.
+
+**Response Time:** 8.5 seconds
+
+**Accuracy: Partially Correct**
+
+Qwen correctly identified that the person stayed at `center/far` in the recorded readings. However, it completely missed the other detected objects.
+
+The log clearly showed `cell phone` twice and `bottle` once, but Qwen said no other objects were identified.
+
+Also, the interpreter only recorded the names of other objects, not their positions. So Qwen did not have enough information to determine whether the phone or bottle moved.
+
+This test showed two different problems. Qwen sometimes ignores information that is already in the log, and the interpreter also limits what information Qwen can use.
+
+### What I Learned
+
+From these experiments, I found that connecting YOLO with Qwen allows the Raspberry Pi to detect changes in the environment and generate summaries from the logs. However, the answers were not always accurate.
+
+Sometimes Qwen missed information that was clearly recorded, and sometimes it made assumptions that the camera data did not support.
+
+I also learned that the interpreter is important because it decides what information gets passed to Qwen. After I changed the descriptions to focus on the current camera frame, the logs became more specific. However, this did not completely prevent incorrect answers.
+
+For my overnight observant system, I think the device should record clear observations and avoid treating Qwen's interpretation as a confirmed fact.
 
 ---
 
