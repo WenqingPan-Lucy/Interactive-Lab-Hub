@@ -336,40 +336,112 @@ To make the interaction more reliable, the system could require a gesture to be 
 
 
 ## Part D. 
-### Reason: run Qwen on the Pi with Ollama
-
-Talk to the model in the terminal first. Qwen3 models "think" before they answer, which is slow on a Pi, so turn it off. Then ask about something you can check:
-
-```
-pi@raspberrypi:~ $ ollama run qwen3.5:0.8b
->>> /set nothink
->>> Tell me a bit about the history of Roosevelt Island. Three sentences.
->>> /bye
-```
-
-Roosevelt Island is a good first question because you know the ground truth: it was Blackwell's Island, then Welfare Island, got its current name in 1973, and Cornell Tech opened on it in 2017. Count how many of the model's facts are true.
-
-From Python, qwen requests can be triggered by the `ask_qwen.py` script. It turns thinking off, tells the model to answer in at most three sentences, and cuts it off after 120 tokens (`--max-tokens` changes that), because a small model left alone writes an essay. Read the script, then run:
-
-```
-(.venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 5 $ python ask_qwen.py "Tell me a bit about the history of Roosevelt Island."
-(.venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 5 $ python ask_qwen.py --model qwen3:0.6b "Tell me a bit about the history of Roosevelt Island."
-(.venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 5 $ python ask_qwen.py --image snap.jpg "What is in this photo?"
-```
-
-Things in the [Ollama API](https://github.com/ollama/ollama/blob/main/docs/api.md) worth knowing:
-
-* `think: false` skips the reasoning trace. Always, on a Pi. `ask_qwen.py` sends it on every request; `--think` turns the trace back on for one question, so you can see what you are skipping and how long it takes.
-* `format` makes the model answer as JSON with the fields you name (`--json`). Handy when a display or a servo has to read the answer.
-* `images` sends a photo along with the prompt (`--image snap.jpg`, the photo from Part A). `qwen3.5:0.8b` can look at pictures.
-
-A 0.8B model is slow and sometimes wrong. It will invent events that are not in the data and agree with a wrong premise. Give it the data, keep its job narrow, and decide what the device does when the model is unsure.
 
 \*\*\***Ask Qwen three questions to answer. Paste the questions, the answers and how long each took. Try one of them with `qwen3:0.6b` and compare.**\*\*\*
 
-<details>
-  Q&A here
-</details>
+I tested two Qwen models locally on my Raspberry Pi using Ollama. I first asked them about Roosevelt Island, and then tested three questions that a bedside device might need to answer.
+
+### 1. Roosevelt Island History Test
+
+**Qwen3.5:0.8b Response:**
+
+> Roosevelt Island was originally built by immigrants from New York to escape the harsh winters and poor conditions of Manhattan, with its first concrete structure appearing in 1895. The island has remained largely unchanged since then, serving as a quiet refuge for families seeking peace while preserving its historic architecture and waterfront views.
+
+**Response Time:** 92.1 seconds
+
+**Qwen3:0.6b Response:**
+
+> Roosevelt Island is a small island in the Pacific Ocean, located in the state of New Jersey, USA. It was established in 1907 as a temporary refuge for the United States Navy during World War I. The island was initially used as a military base and later became a significant cultural and historical site. Today, it is a peaceful retreat for the community, preserving its natural beauty and historical significance.
+
+**Response Time:** 57.7 seconds
+
+**Observation:**
+
+Both models gave incorrect historical information. Qwen3.5 invented a story about immigrants building the island, while Qwen3 even placed Roosevelt Island in the Pacific Ocean and New Jersey. The smaller model was faster in this test, but neither answer was accurate.
+
+### 2. Bedside Device Questions
+
+**Question 1: What should I do if I cannot fall asleep? Give me three simple suggestions.**
+
+**Model:** Qwen3.5:0.8b
+
+**Answer:**
+
+> 1. Try to relax your muscles and take a deep breath to calm your mind.
+> 2. Listen to soothing music or read a quiet book to distract yourself from the noise.
+> 3. Drink a glass of warm water to help clear your head and improve sleep quality.
+
+**Response Time:** 60.2 seconds
+
+**Observation:**
+
+The model gave three simple suggestions, and most of them seemed reasonable. However, the response took about a minute, which may be too slow for a device that needs to respond immediately.
+
+**Question 2: A person entered the room at 11 PM and left at 11:15 PM. What happened? Answer in one sentence.**
+
+**Model:** Qwen3.5:0.8b
+
+**Answer:**
+
+> The person likely slept, as they stayed awake only for a brief moment during their sleep cycle.
+
+**Response Time:** 32.0 seconds
+
+**Observation:**
+
+This answer was incorrect. I only told the model that someone entered and left the room, but it assumed the person was sleeping. This shows that Qwen can make up events that are not included in the input data.
+
+**Question 3: My camera did not detect anyone between midnight and 6 AM. Does that prove nobody entered the room?**
+
+**Model:** Qwen3.5:0.8b
+
+**Answer:**
+
+> No, this does not prove nobody entered the room; it simply means no one was detected during that specific time window.
+
+**Response Time:** 29.5 seconds
+
+**Observation:**
+
+The model answered correctly. It understood that no detection does not necessarily mean nobody entered the room. This is important because the camera or object detection model could miss someone.
+
+### 3. Model Comparison
+
+I tested Question 3 again using the smaller `qwen3:0.6b` model.
+
+**Qwen3:0.6b Answer:**
+
+> The device detected no movement between midnight and 6 AM, which could indicate an absence of people, but it's not certain. The camera's performance may vary, and other factors like lighting or movement patterns could also play a role.
+
+**Response Time:** 44.1 seconds
+
+**Comparison:**
+
+Both models understood that the absence of detection does not prove that nobody entered the room. The smaller model gave a longer answer and mentioned possible issues like lighting and camera performance. However, it also described the input as "no movement," even though the question only said no people were detected.
+
+Qwen3.5 took 29.5 seconds, while Qwen3 took 44.1 seconds. So even though Qwen3 is smaller, it was actually slower in this test.
+
+### 4. Image Understanding Test
+
+**Question:** What is in this photo?
+
+**Qwen3.5:0.8b Answer:**
+
+> A young woman wearing glasses and a dark shirt is taking a selfie in an office setting with bright fluorescent lighting.
+
+**Response Time:** 123.8 seconds
+
+**Observation:**
+
+The model was able to generate a description of the image, but it took more than two minutes. I did not independently verify every detail of the description. The long response time shows that image understanding can be expensive for a small model running locally on the Pi.
+
+### 5. What I Learned
+
+I found that both Qwen models could answer simple questions, but they sometimes generated information that was not supported by the input. The Roosevelt Island test and the room entry question showed this problem clearly.
+
+I also noticed that the models were quite slow on the Raspberry Pi, especially when processing an image. For my overnight observant system, I think it would be better to let the device collect data during the night and ask Qwen to summarize it in the morning, instead of expecting an immediate response.
+
+I would also give the model specific detection logs and ask it to only use the information provided, so it does not make up events that never happened.
 
 
 ## Part E. 
