@@ -238,7 +238,7 @@ This shows that a high confidence threshold can cause the system to miss real pe
 
 #### Error 4: Headphones Detected as a Cell Phone (Misclassification)
 
-![Error 4: Headphones Detected as a Cell Phone](error4.jpg)
+![Error 4: Headphones Detected as a Cell Phone](error4.png)
 
 When I used `--all`, YOLO incorrectly identified my headphones as a cell phone with a confidence score of 0.46.
 
