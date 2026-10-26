@@ -270,30 +270,69 @@ For an overnight observant system, I think it would be better to evaluate detect
 
 
 ## Part C. 
-### See more: hands and pose with MediaPipe
-
-YOLO tells you that a person is there. Google's [MediaPipe](https://mediapipe.dev/) tells you what their hands and body are doing: face, hand and body pose detection, fast on the Pi.
-
-![Media pipe](Readme_files/mp.gif)
-
-The demo plays a looping audio file, so make the helper script executable first:
-
-```
-(.venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 5 $ chmod +x loop_audio.sh
-```
-
-Connect your webcam, connect to your Pi through **VNC**, and run the hand pose script:
-(***it will not work if you use ssh from your laptop***)
-
-```
-(.venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 5 $ python hand_pose.py
-```
-
-Try the two main features of this script: 1) pinching for percentage control (the thumb-to-index distance sets the volume), and 2) "[Quiet Coyote](https://www.youtube.com/watch?v=qsKlNVpY7zg)" for instant percentage setting (the gesture mutes it). Notice how this example uses hardcoded positions and relates those positions with a desired set of events, in `hand_pose.py`: a hand is 21 landmark coordinates, and an *event* is a rule you write over them. That is the same job as `interpret()` in Part E.
-
-Consider how you might use this position based approach to create an interaction, and write how you might use it on either face, hand or body pose tracking.
 
 \*\*\***Include a screenshot or short video of the hand pose demo, and write how you might use face, hand or body pose tracking in your observant system.**\*\*\*
+
+
+I tested the MediaPipe hand tracking system using my webcam. I tried different hand gestures, distances, movements, and partial occlusion to see how well the system works.
+
+### 1. Pinch Gesture — Volume Control
+
+**Actual Result:**
+
+The volume changed when I moved my thumb and index finger closer together or farther apart. The system responded to the changes pretty smoothly, and I did not notice any obvious delay or jumping when I moved my hand quickly.
+
+However, I noticed that the distance between my hand and the camera also affected the volume. When I moved my hand farther away, the volume became lower, even though I kept exactly the same hand gesture.
+
+### 2. Quiet Coyote Gesture — Mute Control
+
+**Actual Result:**
+
+The Quiet Coyote gesture worked well when my hand was close to the camera. The system could recognize the gesture and mute the audio immediately.
+
+However, when I moved my hand farther away, around 30 cm or more, the system could not mute the audio immediately anymore. Sometimes it did not recognize the gesture correctly.
+
+### 3. Detection Errors and Limitations
+
+**Limitation 1: Distance Affects Volume Control**
+
+When I kept the same pinch gesture but moved my hand farther away from the camera, the volume decreased.
+
+I think this happened because the program calculates the distance between finger landmarks in the image, instead of measuring the actual physical distance between my fingers. This makes the volume depend on both my gesture and how far my hand is from the camera.
+
+One possible improvement would be to normalize the distance between the thumb and index finger by the overall size of the hand in the image, rather than using the raw pixel distance.
+
+**Limitation 2: Partial Occlusion Affects Pinch Detection**
+
+When I covered the last three fingers, the volume control did not work correctly anymore, even though my thumb and index finger were still visible.
+
+I think this happened because MediaPipe needs enough visible hand features to estimate the hand landmarks correctly. When some fingers were hidden, the model may have difficulty estimating the full hand position.
+
+**Limitation 3: Quiet Coyote Is Sensitive to Occlusion**
+
+I noticed that the Quiet Coyote gesture was even more sensitive to occlusion. When I covered even a small part of my fingers, the system could no longer recognize the gesture.
+
+This may happen because the program needs to check the positions of several fingers at the same time. If one of the important landmarks is blocked or estimated incorrectly, the gesture may not match the predefined rules.
+
+**Limitation 4: Recognition Becomes Less Reliable at Longer Distances**
+
+When my hand was around 30 cm or farther from the camera, the Quiet Coyote gesture became less responsive.
+
+I think this is because the hand takes up fewer pixels in the image, making the finger landmarks harder to estimate accurately.
+
+### 4. Possible Application in My Observant System
+
+I could use hand gestures to control an overnight monitoring device. For example, I could use a specific hand gesture to start the system before going to bed, instead of pressing a button or typing a command.
+
+When I wake up, I could use another gesture to stop monitoring and ask the device to show a summary of what happened overnight.
+
+However, based on my tests, I think the camera should be placed close enough to the user, and the gestures should be simple. I would also avoid gestures that require very precise finger positions because they may not work well when the hand is far away or partially blocked.
+
+To make the interaction more reliable, the system could require a gesture to be detected consistently for a few consecutive frames before triggering an action. This could help prevent accidental activation or deactivation caused by temporary detection errors.
+
+### 5. Demo
+
+**Video:** [MediaPipe Hand Pose Demo](https://drive.google.com/file/d/1P7_zJDgPw1eoyUCjfTD4EgkEx6yU9rpw/view?usp=sharing)
 
 
 ## Part D. 
