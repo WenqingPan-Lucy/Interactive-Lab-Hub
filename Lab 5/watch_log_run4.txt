@@ -1,0 +1,7 @@
+20:43:06 Current frame: 1 person detected at center/far.
+20:43:11 Current frame: 1 person detected at center/far. Other detected objects: cell phone
+20:43:18 Current frame: 1 person detected at center/far.
+20:43:20 Current frame: 1 person detected at center/far. Other detected objects: bottle
+20:43:24 Current frame: 1 person detected at center/far.
+20:43:29 Current frame: 1 person detected at center/far. Other detected objects: cell phone
+20:43:34 Current frame: 1 person detected at center/far.

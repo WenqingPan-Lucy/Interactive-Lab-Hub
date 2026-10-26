@@ -1,0 +1,10 @@
+20:38:07 No person detected in the current camera frame.
+20:38:14 Current frame: 1 person detected at right/far.
+20:38:15 Current frame: 1 person detected at center/far.
+20:38:20 Current frame: 1 person detected at center/close.
+20:38:31 Current frame: 1 person detected at left/close.
+20:38:36 Current frame: 1 person detected at left/far.
+20:38:40 Current frame: 1 person detected at center/far.
+20:38:44 Current frame: 1 person detected at right/far.
+20:38:59 Current frame: 1 person detected at right/close.
+20:39:00 Current frame: 1 person detected at center/close.

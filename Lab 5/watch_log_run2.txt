@@ -1,0 +1,7 @@
+20:13:39 nobody
+20:13:50 1 person(s) at right/close
+20:13:51 1 person(s) at center/close
+20:14:01 1 person(s) at center/far
+20:14:21 1 person(s) at right/far
+20:14:26 1 person(s) at center/far
+20:14:27 1 person(s) at left/far

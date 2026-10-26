@@ -30,28 +30,65 @@ from ultralytics import YOLO
 model = YOLO("yolo26n_ncnn_model")
 
 
-def interpret(r):
-    """The interpreter: turn one YOLO result into one short reading in words.
 
-    This is the most important design decision in the pipeline. The language model
-    never sees pixels, only the words chosen here. Change it and the model's world changes.
-    """
+def interpret(r):
+    """Convert YOLO detections into clearer observations."""
+
     h, w = r.orig_shape
-    people, others = [], set()
+    people = []
+    others = set()
+
     for box in r.boxes:
         name = model.names[int(box.cls)]
+
         if name != "person":
-            others.add(name)                 # only with --all; see watch()
+            others.add(name)
             continue
+
         x1, y1, x2, y2 = box.xyxy[0].tolist()
+
         cx = (x1 + x2) / 2
-        side = "left" if cx < w / 3 else "right" if cx > 2 * w / 3 else "center"   # which third of the frame
-        dist = "close" if (y2 - y1) > 0.6 * h else "far"                           # how tall the box is
-        people.append(f"{side}/{dist}")
-    reading = f"{len(people)} person(s) at {', '.join(people)}" if people else "nobody"
+
+        if cx < w / 3:
+            side = "left"
+        elif cx > 2 * w / 3:
+            side = "right"
+        else:
+            side = "center"
+
+        box_height = y2 - y1
+
+        if box_height > 0.6 * h:
+            dist = "close"
+        else:
+            dist = "far"
+
+        people.append(side + "/" + dist)
+
+    if len(people) == 0:
+        reading = "No person detected in the current camera frame."
+
+    elif len(people) == 1:
+        reading = (
+            "Current frame: 1 person detected at "
+            + people[0]
+            + "."
+        )
+
+    else:
+        reading = (
+            "Current frame: "
+            + str(len(people))
+            + " people detected at "
+            + ", ".join(people)
+            + "."
+        )
+
     if others:
-        reading += "; also " + ", ".join(sorted(others))
+        reading += " Other detected objects: " + ", ".join(sorted(others))
+
     return reading
+
 
 
 def watch(seconds, every=False, interval=0.5, show=True, all_classes=False):
