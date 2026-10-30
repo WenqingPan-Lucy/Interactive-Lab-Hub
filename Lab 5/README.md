@@ -665,24 +665,53 @@ Two flavors, pick one or mix them:
 Two house rules. Sample rather than stream: one look every 5 to 30 seconds is plenty, and it keeps the Pi cool. And keep everything on the Pi: tell the people you live with, point the camera at things rather than at beds, and delete the snapshots after the demo.
 
 ## Part F. 
-### Read Part 2 and storyboard your night-time interaction
 
-Storyboard a night-time interaction built on your observant system, in three panels:
+### 1. Initial Idea — Desk Guardian
 
-1. **Before bed.** How does the person hand the night over, and how does the device acknowledge it?
-2. **While asleep.** What does the device watch or work through?
-3. **When awake.** What is the one thing the person learns, and in what medium?
+Our idea is to build a small overnight monitoring device called Desk Guardian. It uses a Raspberry Pi and a webcam to observe the desk area while the user is sleeping.
 
-Stuck? A kitchen that tells you who raided the fridge. A desk that reports whether you actually went to bed. A window that names the quietest hour. A plant that describes its night. Find something better.
+The device uses YOLO to detect people near the desk and saves the observations with timestamps. In the morning, Qwen reads the log and generates a short report.
 
-Use storyboards and/or [Verplank diagrams](https://ccrma.stanford.edu/courses/250a-fall-2004/IDSketchbok.pdf).
+We want the system to help users understand if there was any activity around their desk during the night, without needing to watch the camera recordings themselves.
+
+### 2. Initial Storyboard
+
+**Panel 1 — Before Bed**
+
+Before going to bed, the user presses a button to start monitoring. The device shows a confirmation message, so the user knows it has started working.
+
+**Panel 2 — During the Night**
+
+The Raspberry Pi uses YOLO to check the desk area every 15 seconds. The interpreter converts the detections into text and saves them with timestamps. The system works automatically while the user sleeps.
+
+**Panel 3 — In the Morning**
+
+When the user wakes up, they request the overnight report. Qwen summarizes the recorded observations. The device shows a short report about when people were detected near the desk.
+
 
 \*\*\***Insert ideas, sketches, Verplank diagrams and storyboards for your night-time interaction here.**\*\*\*
 
 ## Prep for Part 2
 
-1. Look at and give feedback on the Part F storyboards.
-   **Put the feedback for your ideas here.**
+ **Put the feedback for your ideas here.**
+ 
+### 4. Feedback and Design Revision
+
+**Feedback 1 — Starting Interaction**
+
+*The button is easy to use, but it is not very clear whether the device is still monitoring after the first confirmation. A small status light or message could help.*
+
+**Feedback 2 — Morning Report**
+
+*A short summary is useful, but it would be easier to understand if the user could also see when the activity happened. A simple timeline might be better than only showing text.*
+
+**Feedback 3 — Privacy and Accuracy**
+
+*It would be better if the camera only monitored the desk, instead of the whole room. The morning report should also mention that some detections might be wrong.*
+
+### 5. Revised Storyboard
+
+  
 2. [Update your Lab Hub](prep.md#get-the-latest-content) to get the latest content for Part 2.
 3. Decide where the device will spend the night and who else lives there. Get their OK before the first run.
 4. Revise your storyboard with the feedback and with what you learned in Part E about where the pipeline breaks.
