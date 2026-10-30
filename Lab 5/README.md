@@ -691,11 +691,13 @@ When the user wakes up, they request the overnight report. Qwen summarizes the r
 
 \*\*\***Insert ideas, sketches, Verplank diagrams and storyboards for your night-time interaction here.**\*\*\*
 
+![Initial Storyboard](storyboard1.png)
+
 ## Prep for Part 2
 
  **Put the feedback for your ideas here.**
  
-### 4. Feedback and Design Revision
+### 3. Feedback and Design Revision
 
 **Feedback 1 — Starting Interaction**
 
@@ -709,7 +711,7 @@ When the user wakes up, they request the overnight report. Qwen summarizes the r
 
 *It would be better if the camera only monitored the desk, instead of the whole room. The morning report should also mention that some detections might be wrong.*
 
-### 5. Revised Storyboard
+### 4. Revised Storyboard
 
 Based on the feedback, we revised all three panels to improve the clarity of the interaction, protect user privacy, and make the morning report easier to understand.
 
