@@ -745,6 +745,8 @@ The report also reminds the user that AI detections may not always be accurate.
 
 \*\*\***Post your revised storyboard here.**\*\*\*
 
+![Revised Storyboard](storyboard 2.jpg)
+
 ## Part G. 
 ### Design the interaction before
 
