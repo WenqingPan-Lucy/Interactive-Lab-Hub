@@ -737,9 +737,25 @@ The report also reminds the user that AI detections may not always be accurate.
 ## Part G. 
 ### Design the interaction before
 
-The hand-off: the person tells the device what to watch tonight, and the device acknowledges it. Keep it to a thirty-second ritual. A button or a touch (Lab 4), a spoken sentence (Lab 3), a wave or a Quiet Coyote at the camera (Part C). The acknowledgement can be a line on the display, a tone, or an LED that dims rather than lights up. At its simplest, the hand-off just sets the question that the morning will answer.
-
 \*\*\***Describe the interaction before.**\*\*\*
+
+For Desk Guardian, we created a simple interface with a **Start Night Mode** button.
+
+Before going to sleep, the user clicks the button to activate overnight monitoring. The device displays **"Night Mode Active"** to confirm that the system has started.
+
+The system then uses YOLO to check for people near the desk every 15 seconds and saves timestamped observations in `night_log.jsonl`. The goal is to answer one question the next morning: **"Was anyone detected near my desk overnight, and when?"**
+
+We also added a **Stop Monitoring** button so the user can stop the system when needed.
+
+We chose buttons instead of hand gestures because our tests in Part C showed that gesture recognition was sometimes unreliable when the user's hand was far from the camera. Buttons provide a simpler and more reliable way to control the system.
+
+The entire bedtime interaction takes only a few seconds, keeping the hand-off simple and easy to use.
+
+**Demo Video:**
+
+[Insert video link]
+
+
 
 ## Part H. 
 ### Incorporate the observant system
