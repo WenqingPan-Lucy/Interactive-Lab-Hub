@@ -763,6 +763,8 @@ We first tested the system for about 30 seconds. We walked in and out of the cam
 
 We also ran morning.py with the test log. Qwen generated a morning report, but sometimes it gave incorrect timestamps or assumed different detections were different people.
 
+![Fake Screenshot](fake1.png)
+
 ### 2. Real Overnight Test
 
 We ran the program inside tmux overnight, from October 29 at 10:59 PM to October 30 at 8:50 AM.
@@ -779,7 +781,7 @@ We also noticed that the camera sometimes detected a person at different positio
 
 ### Screenshots of Running System:
 
-![Fake Night Test Screenshot](images/fake_night_test.png)
+![Running System Screenshot](./running%20system.png)
 
 ### Overnight Log:
 
