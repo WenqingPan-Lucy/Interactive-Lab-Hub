@@ -739,37 +739,51 @@ The report also reminds the user that AI detections may not always be accurate.
 
 \*\*\***Describe the interaction before.**\*\*\*
 
-For Desk Guardian, we created a simple interface with a **Start Night Mode** button.
+For Desk Guardian, we created a simple interface with a Start Night Mode button.
 
-Before going to sleep, the user clicks the button to activate overnight monitoring. The device displays **"Night Mode Active"** to confirm that the system has started.
+Before going to sleep, the user clicks the button. The device shows "Night Mode Active" and starts the overnight monitoring program.
 
-The system then uses YOLO to check for people near the desk every 15 seconds and saves timestamped observations in `night_log.jsonl`. The goal is to answer one question the next morning: **"Was anyone detected near my desk overnight, and when?"**
+The system uses YOLO to detect people around the desk every 15 seconds. It saves the observations with timestamps in night_log.jsonl.
 
-We also added a **Stop Monitoring** button so the user can stop the system when needed.
+We also added a Stop Monitoring button so the user can stop the system. We chose buttons because our hand gesture tests in Part C were sometimes unreliable when the hand was far away from the camera.
+The bedtime interaction only takes a few seconds.
 
-We chose buttons instead of hand gestures because our tests in Part C showed that gesture recognition was sometimes unreliable when the user's hand was far from the camera. Buttons provide a simpler and more reliable way to control the system.
-
-The entire bedtime interaction takes only a few seconds, keeping the hand-off simple and easy to use.
-
-**Demo Video:**
-
-[Insert video link]
 
 
 
 ## Part H. 
-### Incorporate the observant system
-
-The Part E pipeline becomes the night shift. `overnight.py` runs your `interpret()` from `yolo_to_qwen.py` every few seconds, people only unless you pass `--all`, and writes the readings to `night_log.jsonl`; the reasoning waits for the morning. Start it inside `tmux` so it keeps running after you close your laptop, and stop it with Ctrl-C in the morning:
-
-```
-(.venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 5 $ tmux new -s night
-(.venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 5 $ python overnight.py
-```
-
-Fake a night first: run it for thirty seconds while you walk around, stop it, and run `morning.py` from Part I. When that looks right, run a real night. If your storyboard needs a sensor rather than the camera, swap in the Lab 4 example code and log its reading the same way.
 
 \*\*\***Screenshots or videos of the running system.**\*\*\*
+
+We used overnight.py to monitor the desk area with YOLO. The program checks the camera every 15 seconds and uses our modified interpret() function to convert detections into text. It only saves the readings when the detection result changes. We also removed the automatic screenshot feature for privacy.
+
+### 1. Fake Night Test
+
+We first tested the system for about 30 seconds. We walked in and out of the camera view, and the program recorded the changes in night_log_fake_30s.jsonl.
+
+We also ran morning.py with the test log. Qwen generated a morning report, but sometimes it gave incorrect timestamps or assumed different detections were different people.
+
+### 2. Real Overnight Test
+
+We ran the program inside tmux overnight, from October 29 at 10:59 PM to October 30 at 8:50 AM.
+
+The system recorded 15 detection changes and 59 heartbeats during about 9 hours and 51 minutes.
+
+Most detection changes happened around 11 PM. The last detection before the long quiet period was at 11:17 PM, when no person was detected. The next change was at 8:50 AM, when one person appeared in the camera view.
+
+### 3. Observations and Problems
+
+One interesting thing was that the system did not record new detection changes for several hours, but it continued writing heartbeats every 10 minutes. This helped us confirm the program was still running.
+
+We also noticed that the camera sometimes detected a person at different positions or distances within a short time. Since YOLO can make detection errors, we cannot assume all these changes represent actual movements. The system also cannot prove nobody was there just because no person was detected.
+
+### Screenshots of Running System:
+
+![Fake Night Test Screenshot](images/fake_night_test.png)
+
+### Overnight Log:
+
+[View Overnight Log](logs/night_log_real_2026-10-29_to_30.jsonl)
 
 ## Part I. 
 ### Design the interaction after
