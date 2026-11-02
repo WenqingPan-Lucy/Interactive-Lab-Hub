@@ -806,6 +806,8 @@ The detection timeline directly reads the timestamps and observations from night
 
 We included a note about detection limitations because YOLO can miss people or make incorrect detections.
 
+![Desk Screenshot](./desk.png)
+
 **Desktop Morning Reveal:**
 
 ### 3. Morning Reveal on Mini PiTFT
