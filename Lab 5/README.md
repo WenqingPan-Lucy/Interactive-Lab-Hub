@@ -788,15 +788,96 @@ We also noticed that the camera sometimes detected a person at different positio
 [View Overnight Log](logs/night_log_real_2026-10-29_to_30.jsonl)
 
 ## Part I. 
-### Design the interaction after
+### 1. Design Idea
 
-The reveal. The night produced a log; the morning turns it into something a half-awake person can take in. `morning.py` is the smallest version: it asks Qwen for a three-sentence report.
+For the morning reveal, we created a system that shows users what their Desk Guardian detected overnight.
 
-```
-(.venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 5 $ python morning.py
-```
+We first used the professor's morning.py to generate a three-sentence report with Qwen. However, we wanted to make the results easier to understand and more interactive. So we created a graphical dashboard and also displayed the report on the Mini PiTFT.
 
-Make it yours: show the report on the Mini PiTFT, read it aloud with Piper from Lab 3, plot the night as a timeline, or ask for JSON (`--json`, Part D) and move a servo. Whatever you pick, make sure it is honest about a night in which nothing happened.
+The user can check the overnight results without reading the original JSON log.
+
+### 2. Morning Reveal on Desktop
+
+We created morning_reveal.py using Tkinter. The interface shows four main statistics: monitoring duration, detection changes, person-present readings, and heartbeats.
+
+We also added a main takeaway, a detection timeline, and a Qwen-generated summary.
+
+The detection timeline directly reads the timestamps and observations from night_log.jsonl. This allows users to compare the AI summary with the actual detection records.
+
+We included a note about detection limitations because YOLO can miss people or make incorrect detections.
+
+**Desktop Morning Reveal:**
+
+### 3. Morning Reveal on Mini PiTFT
+
+We also created desk_guardian_pitft.py to display the morning report on the Mini PiTFT.
+
+Since the screen is small, we divided the information into three pages:
+
+- **Morning Overview:** Shows the monitoring duration, detection changes, person-present readings, and heartbeats.
+- **Night Timeline:** Shows the detection changes across the overnight monitoring period.
+- **Qwen Summary:** Displays a short AI-generated report based on the overnight log.
+
+The user can press Button A to move to the next page and Button B to return to the previous page.
+
+We tested the Mini PiTFT with our real overnight log. The screen displayed the results correctly, and both buttons worked to switch between pages. The Qwen summary also appeared on the physical screen.
+
+This makes the morning interaction more convenient because the user doesn't need to open their laptop to see the results.
+
+**Mini PiTFT Morning Reveal:**
+
+https://drive.google.com/file/d/1P0s8ASpo0qUicuA4RiiGMEpuTRCyrmz0/view?usp=sharing
+
+### 4. Real Overnight Results
+
+We tested the system using the real overnight log collected from October 29 to October 30, 2026.
+
+The Raspberry Pi monitored the desk area from 10:59 PM to 8:50 AM, for about 9 hours and 51 minutes.
+
+The system recorded:
+
+- 15 detection changes
+- 13 person-present readings
+- 59 heartbeats
+- Most person-present changes occurred around 11 PM
+
+At 11:17:43 PM, the camera recorded no person detected. The next detection change was at 8:50:56 AM, when one person was detected at the center of the camera view.
+
+The heartbeats continued during the long period without new detection changes. This showed that the monitoring program was still running.
+
+### 5. Design Iterations and Limitations
+
+Our first version only printed the Qwen summary in the Terminal. We changed it to a Tkinter dashboard and later added the Mini PiTFT display.
+
+During our Fake Night tests, Qwen sometimes generated incorrect timestamps or assumed different detections were different people.
+
+We also found errors in the real overnight summary. For example, Qwen said no person was detected at 23:15:41, but the actual log recorded one person at right/close. It also described a person at 23:17:43, while the log recorded no person detected.
+
+Because of these problems, we decided to show the original detection timeline separately from the AI summary. This helps users check the actual observations instead of only trusting Qwen.
+
+We also considered the case where nothing happens overnight. If the log contains no person detections, the system is designed to show a quiet-night message instead of generating an imaginary event. However, no detections do not prove that nobody was present.
+
+### 6. Looks Like, Works Like, Acts Like
+
+**Looks Like:** Our final prototype includes a dark-themed Tkinter dashboard and a Mini PiTFT display. The dashboard shows the statistics, timeline, and AI summary. The Mini PiTFT shows a simpler version across three pages.
+
+**Works Like:** The system reads the overnight JSON log and calculates the statistics using Python. It creates the timeline from the recorded timestamps and sends the observations to Qwen for a short summary. The results are displayed on the desktop and the Mini PiTFT.
+
+**Acts Like:** Before going to sleep, the user starts Night Mode using the Desk Guardian interface. The Raspberry Pi monitors the desk overnight. In the morning, the user checks the report on the Mini PiTFT and presses the physical buttons to explore the results.
+
+### 7. Final Demo
+
+Our final demonstration shows the complete interaction from bedtime to the morning:
+
+- **Before Bed:** The user starts Desk Guardian using the Start Night Mode button.
+- **During Night:** The Raspberry Pi runs YOLO and records observations in night_log.jsonl.
+- **Morning Reveal:** The user views the overnight statistics, timeline, and Qwen summary on the Mini PiTFT.
+
+**Final Demo Video:**
+
+[Insert final video link]
+
+**Code:** morning.py, morning_reveal.py, desk_guardian_pitft.py
 
 ## Final documentation
 
