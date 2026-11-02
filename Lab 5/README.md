@@ -834,16 +834,18 @@ https://drive.google.com/file/d/1P0s8ASpo0qUicuA4RiiGMEpuTRCyrmz0/view?usp=shari
 
 We tested the system using the real overnight log collected from October 29 to October 30, 2026.
 
-The Raspberry Pi monitored the desk area from 10:59 PM to 8:50 AM, for about 9 hours and 51 minutes.
+The Raspberry Pi monitored the desk area from **10:59 PM to 8:50 AM**, for about **9 hours and 51 minutes**.
 
 The system recorded:
 
-- 15 detection changes
-- 13 person-present readings
-- 59 heartbeats
-- Most person-present changes occurred around 11 PM
+- **15 detection changes**
+- **13 person-present readings**
+- **59 heartbeats**
+- Most person-present changes occurred around **11 PM**
 
-At 11:17:43 PM, the camera recorded no person detected. The next detection change was at 8:50:56 AM, when one person was detected at the center of the camera view.
+Person-present readings refer to recorded detection changes where YOLO detected at least one person, not the number of different people.
+
+At **11:17:43 PM**, the camera recorded no person detected. The next detection change was at **8:50:56 AM**, when one person was detected at the center of the camera view.
 
 The heartbeats continued during the long period without new detection changes. This showed that the monitoring program was still running.
 
