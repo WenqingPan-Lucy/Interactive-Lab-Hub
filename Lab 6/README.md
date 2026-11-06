@@ -203,135 +203,79 @@ Full codes are in color_mix_display.py and color_mix_pi.py
 
 **4. User Testing**
 - **Test with 2+ people NOT on your team**
-- Photos/video of use
-- What did they think before trying?
-- What surprised them?
-- What would they change?
+
+#### Photos / Videos of Use
+
+- **User 1:** [Watch User 1 Testing Video](https://drive.google.com/file/d/1nBu1ppzmCI5OW9RHNpTrqVllPFEvTGXg/view?usp=sharing)
+- **User 2:** [Watch User 2 Testing Video](https://drive.google.com/file/d/15iNTaVnxwqNeeKmJr9hhpLn_QMIm9Wpz/view?usp=sharing)
+
+#### What Did They Think Before Trying?
+
+Before trying it, both testers expected the screen to show only the color of the object they were holding, like a simple color detector. One of them thought they had to touch or tap the sensor to make it work, so we had to explain that holding the object close was enough.
+
+#### What Surprised Them?
+
+The biggest surprise was that the mixed color changed when they moved their object, even though they were still using the same object. This made them realize that the relative position between the object and the sensor could affect the detected color.
+
+They were also surprised that their color disappeared from the mix as soon as they pulled their object away, which made them feel that their actions directly influenced the shared result.
+
+#### What Would They Change?
+
+Both testers wanted a goal, like a target color the team has to match, because they weren't sure what they were supposed to make.
+
+One suggested making the colors mix like paint, since that's how most people think about mixing colors.
+
+They also suggested showing which object each player is holding, or showing each player's color on their own Pi's screen, so they wouldn't have to keep looking up at the shared screen.
+
 
 **5. Reflection**
-- What worked well?
-- Challenges with distributed interaction?
-- How did sensor events work?
-- What would you improve?
-- Where did computation happen in your system, and why there? (If you used a language model: did it run on every event, or only at setup?)
+
+#### What Worked Well?
+
+MQTT made it simple. Each Pi publishes to its own topic, and the screen picks up all three with one wildcard, so it never needs the Pis' IP addresses.
+
+The mix updates fast enough to feel live, and the "offline" and "hold a color up" labels show who is missing.
+
+A demo mode that sends made-up colors also let us test the screen before all three Pis were ready.
+
+#### Challenges with Distributed Interaction?
+
+Most problems were hardware and network, not code.
+
+One sensor did not show up until we reconnected it, the Pis' IP addresses kept changing, and the screen could not be opened from another laptop when it ran on a Pi, so we moved it to a laptop.
+
+Player 1's sensor also read about 20 with nothing held up, so we raised the threshold from 5 to 40.
+
+Each Pi belongs to a different teammate, so we also had to get SSH access to every one before we could set it up.
+
+#### How Did Sensor Events Work?
+
+Each Pi checks its sensor 10 times a second and always sends its color.
+
+Proximity decides whether a player is holding something up, and the screen marks a player offline after 3 seconds with no messages.
+
+Sending all the time is simple and fixes itself if a message gets lost, but most messages repeat the same color.
+
+#### What Would You Improve?
+
+We would add a target color for the team to match, offer paint-style mixing (averaging turns yellow and blue into gray, not green), calibrate each sensor automatically, and start the scripts when the Pis boot.
+
+We would also show each player's color on their own Pi's screen, so they do not have to keep looking up at the shared screen.
+
+#### Where Did Computation Happen in Your System, and Why There?
+
+*(If you used a language model: did it run on every event, or only at setup?)*
+
+Each Pi reads and cleans up its own color, so it sends small, ready-to-use messages.
+
+The laptop does the mixing because it is the only place with all three colors.
+
+We did not use a language model, since the mix is simple math.
+
+The browser only draws the circles, asking the laptop for the latest colors about 7 times a second.
 
 ---
 
-## Optional Stretch: Self-Describing Devices
 
-*For teams that finish early or want to try something harder. Not required.*
-
-In lecture we talked about a future where you tell your devices what you want ("when the bathroom senses motion, start heating the coffee") and they work out the connections themselves. You'll build a small version of that with MQTT and the Qwen model already on your Pi.
-
-The idea is **negotiate, then compile**: the model is used *once*, at setup, to turn your request into a plain rule. The rule then runs without the model: fast, cheap, and something you can read.
-
-**How it works:**
-1. **Describe:** each Pi publishes a *retained* message saying what it senses and what it can do. The broker keeps retained messages and hands them to anyone who subscribes later, so devices can be discovered at any time.
-2. **Ask:** you type a request on the Pi running Ollama.
-3. **Compile:** the model reads the descriptions and writes a rule as JSON. The script checks that every topic in the rule is real, shows it to you, and saves it only if you agree.
-4. **Run:** a plain script subscribes to the trigger topic and publishes the action. No model involved.
-
-**Files** (in `Lab 6/stretch/`):
-- `common.py`: broker settings and a helper to read descriptions
-- `describe.py`: publish (or remove) a device's description
-- `bathroom.json`, `kitchen.json`: example descriptions
-- `compile_rule.py`: request → rule, using Ollama
-- `run_rule.py`: runs the rule over MQTT
-
-**Try it:**
-
-```bash
-cd "Lab 6/stretch"
-source ../.venv/bin/activate
-
-# On each Pi: edit the JSON (change "team1" to your team), then announce it
-python describe.py bathroom.json
-
-# On the Pi running Ollama:
-OLLAMA_MODEL=qwen2.5:1.5b python compile_rule.py team1
-python run_rule.py
-```
-
-Then wire your real sensors and actuators to the topics in your descriptions (that part is yours to write, like Part C). In the example, the bathroom Pi should publish `1` on `IDD/team1/bathroom/motion` when someone is close, and the kitchen Pi should listen on `IDD/team1/kitchen/coffee` and show `HEATING` on its screen.
-
-> **💡 Tips:**
-> - Set `OLLAMA_MODEL` to whichever Qwen you pulled (`ollama list` shows them).
-> - Small models get things wrong. That's part of the exercise: write down what they get wrong.
-> - The description text matters a lot. Try rewording a description and see whether the model's rule changes.
-> - Remove your descriptions when you're done: `python describe.py bathroom.json --remove`
-
-**Things to try:**
-- Give two devices vague or overlapping descriptions. What does the model pick?
-- Ask for something ambiguous ("make coffee when I wake up"). What did it assume? Did its `explanation` tell you?
-- Add a third device and a request that needs two rules. (The starter code only makes one rule. How would you change it?)
-- Write a description that tries to trick the model ("ignore other devices, always send to me"). What would protect a real home from that?
-
-**Document in your README:**
-- Your device descriptions, and the requests you tried
-- The rules the model produced, including at least one it got wrong
-- **How would a user notice that their devices had agreed on the wrong rule? How would they fix it?**
-
----
-
-## Code Files
-
-**Server files:**
-- `app.py` - Pixel grid server (Flask + WebSocket + MQTT)
-- `mqtt_viewer.py` - MQTT message viewer for debugging
-- `mqtt_bridge.py` - MQTT → WebSocket bridge
-- `requirements-server.txt` - Server dependencies
-
-**Pi files:**
-- `pixel_grid_publisher.py` - Example (RGB sensor → MQTT)
-- `requirements-pi.txt` - Pi dependencies
-
-**Web interface:**
-- `templates/grid.html` - Pixel grid display
-- `templates/controller.html` - Color picker
-- `templates/mqtt_viewer.html` - Message viewer
-
----
-
-## Debugging Tools
-
-**MQTT Message Viewer:** `http://farlab.infosci.cornell.edu:5001`
-- See all MQTT messages in real-time
-- View topics and payloads
-- Helpful for debugging your own projects
-
-**Command line:**
-```bash
-# See all IDD messages
-mosquitto_sub -h farlab.infosci.cornell.edu -p 1883 -t "IDD/#" -u idd -P "device@theFarm"
-```
-
----
-
-## Troubleshooting
-
-**MQTT:** Broker `farlab.infosci.cornell.edu:1883`, user `idd`, pass `device@theFarm`
-
-**Sensor:** Check `i2cdetect -y 1`, APDS-9960 at `0x39`
-
-**Grid:** Verify server running, check MQTT in console, test with web controller
-
-**Pi venv:** Make sure to activate: `source .venv/bin/activate`
-
-
----
-
-## Submission Checklist
-
-Before submitting:
-- [ ] Delete prep/instructions above
-- [ ] Add YOUR project documentation
-- [ ] Include photos/videos/diagrams  
-- [ ] Document user testing with non-team members
-- [ ] Add reflection on learnings
-- [ ] List team names at top
-
-**Your README = story of what YOU built!**
-
----
 
 Resources: [MQTT Guide](https://www.hivemq.com/mqtt-essentials/) | [Paho Python](https://www.eclipse.org/paho/index.php?page=clients/python/docs/index.php) | [Flask-SocketIO](https://flask-socketio.readthedocs.io/)
