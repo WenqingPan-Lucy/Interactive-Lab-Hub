@@ -1,131 +1,99 @@
 # Distributed Interaction
 
-**NAMES OF COLLABORATORS HERE**
+**NAMES OF COLLABORATORS HERE**  Wenqing Pan(wp273 ); Mandy Mao(mm3599)；Sirapop Umnakkittikul(su97); Feiyu Zhou(fz283)
 
-For submission, replace this section with your documentation!
 
----
-
-## Prep
-
-1. Pull the new changes
-2. Read: [The Presence Table](https://dl.acm.org/doi/10.1145/1935701.1935800) ([video](https://vimeo.com/15932020))
-
-## Overview
-
-Build interactive systems where **multiple devices communicate over a network** using MQTT messaging. Work in teams of 3+ with Raspberry Pis.
-
-**Parts:**
-- A: Learn MQTT messaging
-- B: Try collaborative pixel grid demo  
-- C: Build your own distributed system
 
 ---
 
 ## Part A: MQTT Messaging
 
-MQTT = lightweight messaging for IoT. Publish/subscribe model with central broker.
-
-**Concepts:**
-- **Broker**: `farlab.infosci.cornell.edu:1883`
-- **Topic**: Like `IDD/bedroom/temperature` (use `#` wildcard)
-- **Publish/Subscribe**: Send and receive messages
-
-**Install MQTT tools on your Pi:**
-```bash
-sudo apt-get update
-sudo apt-get install -y mosquitto-clients
-```
-
-**Test it:**
-
-**Subscribe to messages (listener):**
-```bash
-mosquitto_sub -h farlab.infosci.cornell.edu -p 1883 -t 'IDD/#' -u idd -P 'device@theFarm'
-```
-
-**Publish a message (sender):**
-```bash
-mosquitto_pub -h farlab.infosci.cornell.edu -p 1883 -t 'IDD/test/yourname' -m 'Hello!' -u idd -P 'device@theFarm'
-```
-
-> **💡 Tips:**
-> - Replace `yourname` with your actual name in the topic
-> - Use single quotes around the password: `'device@theFarm'`
-> - For your own projects, publish under your team's topic space: `IDD/<yourteam>/...` (for example `IDD/team3/bedroom/light`). Everyone shares one broker login, so anything you publish can reach everyone's projects.
-
-**🔧 Debug Tool:** View all MQTT messages in real-time at `http://farlab.infosci.cornell.edu:5001`
-
-![MQTT Explorer showing messages](imgs/MQTT-explorer.png)
 
 **💡 Brainstorm 5 ideas for messaging between devices**
 
-MQTT agrees on almost nothing in advance: you invent the topics and what the messages mean. Smart-home standards like Matter fix the vocabulary instead (every "light" behaves the same). Keep this trade-off in mind when you design your topics in Part C.
+### Idea 1: Collaborative Maze Game
+
+We want to create a multiplayer maze game where three players work together to control a single character and navigate through obstacles to reach the destination.
+
+Each player uses a Raspberry Pi with an APDS-9960 sensor to control a different aspect of the character's movement:
+
+- **Player 1 – Forward/Backward:** Uses hand gestures to control the character's forward and backward movement.
+- **Player 2 – Left/Right:** Uses hand gestures to control the character's left and right movement.
+- **Player 3 – Speed:** Uses the distance between their hand and the sensor to control the character's speed. Moving the hand closer speeds up the character, while moving it farther away slows it down.
+
+The three Raspberry Pis send their sensor data through MQTT, and the game combines these inputs to control the character in real time.
+
+Players must communicate and coordinate their movements to avoid obstacles and successfully complete the maze. This game explores how people collaborate when control of a single character is distributed across multiple users.
+
+### Idea 2: Collaborative Color Mixing
+
+We want to create an interactive color-mixing system where three players work together to create a new color using their Raspberry Pis and APDS-9960 sensors.
+
+Each player places a colored object near their sensor, and the sensor detects its RGB values. The three Raspberry Pis send their color data through MQTT to a shared screen.
+
+The screen displays the three players' individual colors and a fourth color created by mixing all three colors together.
+
+As players change the colors in front of their sensors, the mixed color updates in real time.
+
+This interaction allows players to experiment with different color combinations and explore how individual inputs can contribute to a shared visual result.
+
+### Idea 3: Collaborative Virtual Pet
+
+We want to create a virtual pet that three players can take care of together using their Raspberry Pis and sensors.
+
+Each player is responsible for a different activity:
+
+- **Player 1 – Feeding:** Uses different colors to select food for the pet.
+- **Player 2 – Playing:** Uses hand gestures to play with the pet.
+- **Player 3 – Resting:** Uses the proximity sensor to help the pet sleep or wake up.
+
+The three Raspberry Pis send their sensor data through MQTT, and a shared screen displays the pet's current status, including its hunger, happiness, and energy levels.
+
+Players must communicate and work together to keep the pet healthy and happy. This interaction explores how multiple users can share responsibility for a single virtual character.
+
+### Idea 4: Digital Campfire
+
+We want to create a virtual campfire that responds to the presence and participation of three people.
+
+Each Raspberry Pi uses its proximity sensor to detect whether a player's hand is near the sensor. The devices send their proximity values through MQTT to a shared display.
+
+The campfire changes based on how many players are participating:
+
+- **One player:** A small flame appears.
+- **Two players:** The fire becomes brighter and larger.
+- **Three players:** The campfire reaches its maximum size.
+- **No players:** The fire gradually fades away.
+
+This interaction explores how physical presence can be represented digitally and how multiple people can contribute to a shared experience, even when they are in different locations.
+
+### Idea 5: Collaborative Cooking Game
+
+We want to create a cooking game where three players work together to prepare a virtual meal using their Raspberry Pis and sensors.
+
+Each player controls a different part of the cooking process:
+
+- **Player 1 – Ingredients:** Uses the color sensor to select different ingredients.
+- **Player 2 – Cooking Actions:** Uses hand gestures to perform actions such as chopping or stirring.
+- **Player 3 – Temperature:** Uses the proximity sensor to control the cooking temperature.
+
+The three Raspberry Pis send their sensor inputs through MQTT, and the shared screen shows the cooking process in real time.
+
+Players must coordinate their actions to follow recipes, control the cooking process, and complete dishes successfully. This game explores communication, teamwork, and coordination when different parts of a task are controlled by different people.
 
 ---
 
 ## Part B: Collaborative Pixel Grid
 
-Each Pi = one pixel, controlled by RGB sensor, displayed in real-time grid.
-
-**Architecture:** `Pi (sensor) → MQTT → Server → Web Browser`
-
-**Setup:**
-
-1. **Sensor**
-
-#### Light/Proximity/Gesture sensor (APDS-9960)
-We use this sensor [Adafruit APDS-9960](https://www.adafruit.com/product/3595) for this exmaple to detect light (also RGB)
- 
-<img src="https://cdn-shop.adafruit.com/970x728/3595-06.jpg" width=200>
-
-Connect it to your pi with Qwiic connector
-
-
-<img src="imgs/IMG_0270.jpg" height="200" />
-We need to use the screen to display the color detection, so we need to stop the running piscreen.service to make your screen available again
-
-```bash
-# stop the screen service
-sudo systemctl stop piscreen.service
-```
-
-if you want to restart the screen service
-```bash
-# start the screen service
-sudo systemctl start piscreen.service
-```
- 
-2. **Server** (one person on laptop):
-```bash
-cd "Lab 6"
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements-server.txt
-python app.py
-```
-
-2. **View in browser:**
-   - Grid: `http://farlab.infosci.cornell.edu:5000`
-   - Controller: `http://farlab.infosci.cornell.edu:5000/controller`
-
-3. **Pi publisher** (everyone on their Pi):
-```bash
-# First time setup - create virtual environment
-cd "Lab 6"
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements-pi.txt
-
-# Run the publisher
-python pixel_grid_publisher.py
-```
-
-Hold colored objects near sensor to change your pixel!
-
-![Pixel grid with two devices](imgs/two-devices-grid.png)
 
 **📸 Include: Screenshot of grid + photo of your Pi setup**
+
+### Pixel Grid Screenshot
+
+![Collaborative Pixel Grid](/pixel_grid.png)
+
+### Raspberry Pi Setup
+
+![Raspberry Pi with APDS-9960 Sensor](/pi_setup.jpg)
 
 ---
 
