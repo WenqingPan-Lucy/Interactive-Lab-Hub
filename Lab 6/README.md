@@ -89,57 +89,117 @@ Players must coordinate their actions to follow recipes, control the cooking pro
 
 ### Pixel Grid Screenshot
 
-![Collaborative Pixel Grid](/pixel_grid.png)
+![Collaborative Pixel Grid](pixel_grid.jpg)
 
 ### Raspberry Pi Setup
 
-![Raspberry Pi with APDS-9960 Sensor](/pi_setup.jpg)
+![Raspberry Pi with APDS-9960 Sensor](pi_setup.jpg)
 
 ---
 
 ## Part C: Make Your Own
 
-**Requirements:**
-- 3+ people, 3+ Pis
-- Each Pi contributes sensor input via MQTT
-- Meaningful or fun interaction
-
-**Ideas:**
-
-**Sensor Fortune Teller**
-- Each Pi sends 0-255 from different sensor
-- Server generates fortunes from combined values
-
-**Frankenstories**
-- Sensor events → story elements (not text!)
-- Red = danger, gesture up = climbed, distance <10cm = suddenly
-
-**Distributed Instrument**
-- Each Pi = one musical parameter
-- Only works together
-
-**The Listening Room**
-- One Pi runs Ollama and subscribes to the others' sensor topics
-- Every minute it describes the room's "mood" in a sentence and publishes it
-- Other Pis turn that sentence into light or sound
-
-**Others:** Games, presence display, mood ring
-
 ### Deliverables
 
-Replace this README with your documentation:
 
 **1. Project Description**
-- What does it do? Why interesting? User experience?
+
+Our project is an interactive color-mixing system where three players work together to create a shared color using Raspberry Pis and APDS-9960 color sensors.
+
+Each player uses a Raspberry Pi connected to a color sensor. By placing different colored objects near the sensor, players can control their individual colors. The three Raspberry Pis send their RGB values through MQTT to a shared screen, which displays all three individual colors alongside a fourth color created by combining them. As players change their objects, the mixed color updates in real time.
+
+What makes this project interesting is that no single player has full control over the final color. Instead, the result depends on everyone's input, encouraging players to communicate, experiment, and collaborate. Players can try different color combinations, observe how their individual choices affect the shared result, and work together to create a specific color.
+
+Through this interaction, we hope to create a simple and playful experience that demonstrates how multiple physical devices can communicate and contribute to a shared digital outcome.
+
+
 
 **2. Architecture Diagram**
-- Hardware, connections, data flow
-- Label input/computation/output
+
+**Demo Video:** [Watch our project demo](https://drive.google.com/file/d/1tm64V-Qqm8RqUIZHdSv-qdsiuE-q7WkZ/view?usp=sharing)
+
+
+![Architecture Diagram](AD.png)
+
+Our system consists of three Raspberry Pis, each connected to an APDS-9960 color sensor, an MQTT broker, and a shared display.
+
+- **Input:** Each player places a colored object near their APDS-9960 sensor. The sensor detects the object's RGB values, which are read by the connected Raspberry Pi.
+
+- **Communication:** Each Raspberry Pi publishes its RGB data to a separate MQTT topic through Wi-Fi. The MQTT broker receives these messages and forwards them to the application subscribed to the three topics.
+
+- **Computation:** A Python application receives the RGB values from all three Raspberry Pis and calculates a mixed color by combining their RGB components.
+
+- **Output:** The shared screen displays four color blocks: one for each player's detected color and a fourth showing the mixed color. Whenever a player changes their colored object, the system receives updated sensor data and recalculates the mixed color, allowing everyone to see the result in real time.
+
 
 **3. Build Documentation**
-- Photos of each Pi + sensors
-- MQTT topics used
-- Code snippets with explanations
+
+#### Photos of each Pi + sensors
+
+![Pi Photo](3.1.png)
+
+We used three Raspberry Pis as players:
+
+- **Player 1:** `morinz`
+- **Player 2:** `raspberrypiWenqingPi`
+- **Player 3:** `raspberrypimaoman`
+
+Each Pi has an APDS-9960 color sensor connected with a Qwiic cable. The shared screen is a web page that runs on a laptop.
+
+#### MQTT Topics Used
+
+All three Pis publish to the class broker at `farlab.infosci.cornell.edu` on port `1883`.
+
+Each player has its own topic:
+
+- `IDD/morinmig/colormix/player1`
+- `IDD/morinmig/colormix/player2`
+- `IDD/morinmig/colormix/player3`
+
+Each Pi sends about 10 messages a second. Every message is a small JSON object with the player number, the color, whether something is held over the sensor, the proximity reading, and the time it was sent. For example:
+
+![Pi Photo](3.2.png)
+
+The shared screen listens to all three at once with the wildcard topic IDD/morinmig/colormix/+ 
+
+#### Code Snippets with Explanations
+
+The project has two files. color_mix_pi.py runs on each player's Pi, and color_mix_display.py runs the shared screen. We wrote the code with help from Claude, an AI assistant.
+
+On each Pi (use 2 and 3 on the other Pis):
+
+![Pi Photo](3.3.png)
+
+On the laptop, then open http://localhost:8091 in a browser:
+
+![Pi Photo](3.4.png)
+
+Reading the sensor. Each Pi reads the color and how close something is. A player only counts as holding a color when the proximity is 40 or more. With nothing in front, the sensor still picks up a pinkish color from the room light, so without this check every player would always be counted.
+
+![Pi Photo](3.5.png)
+
+Cleaning up the color. The sensor reads blue too weakly, so we boost it, then scale the color so the strongest channel is 255. This keeps the hue but not the brightness. We also blend each new reading with the last one so the screen does not flicker.
+
+![Pi Photo](3.6.png)
+
+Publishing. Each Pi sends its color to its own topic 10 times a second.
+
+![Pi Photo](3.7.png)
+
+Receiving. The shared screen subscribes to all three topics with one wildcard. It saves the latest message from each player and when it arrives.
+
+![Pi Photo](3.8.png)
+
+Mixing. A player is offline if nothing has arrived from them for 3 seconds. The mixed color is the average of the players who are holding something up, like shining three colored lights on the same spot.
+
+![Pi Photo](3.9.png)
+
+Showing it. The web page asks for the latest colors about 7 times a second and paints the four circles.
+
+![Pi Photo](4.10.png)
+
+Full codes are in color_mix_display.py and color_mix_pi.py
+
 
 **4. User Testing**
 - **Test with 2+ people NOT on your team**
